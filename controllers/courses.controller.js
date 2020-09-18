@@ -1,6 +1,6 @@
-const Courses = require("../models/courses.model.js");
+const Customer = require("../models/courses.model.js");
 
-// Create and Save a new Courses
+// Create and Save a new Customer
 exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -9,19 +9,19 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a Courses
-  const courses = new Courses({
+  // Create a Customer
+  const course = new Customer({
     email: req.body.email,
     name: req.body.name,
     active: req.body.active
   });
 
-  // Save Courses in the database
-  Courses.create(courses, (err, data) => {
+  // Save Customer in the database
+  Customer.create(course, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Courses."
+          err.message || "Some error occurred while creating the Customer."
       });
     else res.send(data);
   });
@@ -29,34 +29,34 @@ exports.create = (req, res) => {
 
 // Retrieve all Courses from the database.
 exports.findAll = (req, res) => {
-    Courses.getAll((err, data) => {
+    Customer.getAll((err, data) => {
         if (err)
           res.status(500).send({
             message:
-              err.message || "Some error occurred while retrieving Coursess."
+              err.message || "Some error occurred while retrieving courses."
           });
         else res.send(data);
       });
 };
 
-// Find a single Courses with a CoursesId
+// Find a single Customer with a customerId
 exports.findOne = (req, res) => {
-    Courses.findById(req.params.coursesId, (err, data) => {
+    Customer.findById(req.params.customerId, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Courses with id ${req.params.coursesId}.`
+              message: `Not found Customer with id ${req.params.customerId}.`
             });
           } else {
             res.status(500).send({
-              message: "Error retrieving Courses with id " + req.params.coursesId
+              message: "Error retrieving Customer with id " + req.params.customerId
             });
           }
         } else res.send(data);
       });
 };
 
-// Update a Courses identified by the coursesId in the request
+// Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
   // Validate Request
   if (!req.body) {
@@ -65,18 +65,18 @@ exports.update = (req, res) => {
     });
   }
 
-  Courses.updateById(
-    req.params.coursesId,
-    new Courses(req.body),
+  Customer.updateById(
+    req.params.customerId,
+    new Customer(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Courses with id ${req.params.coursesId}.`
+            message: `Not found Customer with id ${req.params.customerId}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Courses with id " + req.params.coursesId
+            message: "Error updating Customer with id " + req.params.customerId
           });
         }
       } else res.send(data);
@@ -84,31 +84,31 @@ exports.update = (req, res) => {
   );
 };
 
-// Delete a Courses with the specified coursesId in the request
+// Delete a Customer with the specified customerId in the request
 exports.delete = (req, res) => {
-    Courses.remove(req.params.coursesId, (err, data) => {
+    Customer.remove(req.params.customerId, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Courses with id ${req.params.coursesId}.`
+              message: `Not found Customer with id ${req.params.customerId}.`
             });
           } else {
             res.status(500).send({
-              message: "Could not delete Courses with id " + req.params.coursesId
+              message: "Could not delete Customer with id " + req.params.customerId
             });
           }
-        } else res.send({ message: `Courses was deleted successfully!` });
+        } else res.send({ message: `Customer was deleted successfully!` });
       });
 };
 
-// Delete all Coursess from the database.
+// Delete all Courses from the database.
 exports.deleteAll = (req, res) => {
-    Courses.removeAll((err, data) => {
+    Customer.removeAll((err, data) => {
         if (err)
           res.status(500).send({
             message:
-              err.message || "Some error occurred while removing all coursess."
+              err.message || "Some error occurred while removing all courses."
           });
-        else res.send({ message: `All Coursess were deleted successfully!` });
+        else res.send({ message: `All Courses were deleted successfully!` });
       });
 };

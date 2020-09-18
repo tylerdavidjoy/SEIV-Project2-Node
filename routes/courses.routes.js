@@ -1,21 +1,21 @@
 module.exports = app => {
-    const courses = require("../controllers/courses.controller.js");
+    const courses = require("../controllers/course.controller.js");
   
-    // Create a new Courses
+    // Create a new Course
     app.post("/courses", courses.create);
   
     // Retrieve all Courses
     app.get("/courses", courses.findAll);
   
-    // Retrieve a single Courses with coursesId
-    app.get("/courses/:coursesId", courses.findOne);
+    // Retrieve a single Course with customerId
+    app.get("/courses/:customerId", courses.findOne);
   
-    // Update a Courses with coursesId
-    app.put("/courses/:coursesId", courses.update);
+    // Update a Course with customerId
+    app.put("/courses/:customerId", courses.update);
   
-    // Delete a Courses with coursesId
-    app.delete("/courses/:coursesId", courses.delete);
+    // Delete a Course with customerId
+    app.delete("/courses/:customerId", courses.delete);
   
-    // Create a new Courses
+    // Create a new Course
     app.delete("/courses", courses.deleteAll);
   };
