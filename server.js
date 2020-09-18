@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to The Dang Hammer application." });
 });
 
-require("./app/routes/courses.routes.js")(app);
+require("./routes/courses.routes.js")(app);
 
 // set port, listen for requests
 app.listen(3000, () => {
