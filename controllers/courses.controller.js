@@ -11,9 +11,17 @@ exports.create = (req, res) => {
 
   // Create a Customer
   const course = new Customer({
-    email: req.body.email,
-    name: req.body.name,
-    active: req.body.active
+    Course_Number: req.body.Course_Number,
+    Course_Name: req.body.Course_Name,
+    Course_Professor_Full_Name: req.body.Course_Professor_Full_Name,
+    Course_Semester: req.body.Course_Semester,
+    Course_Credit: req.body.Course_Credit,
+    Course_Start_Time: req.body.Course_Start_Time,
+    Course_End_Time: req.body.Course_End_Time,
+    Course_Room: req.body.Course_Room,
+    Course_Description: req.body.Course_Description,
+    Course_Department: req.body.Course_Department,
+    Course_Level: req.body.Course_Level
   });
 
   // Save Customer in the database

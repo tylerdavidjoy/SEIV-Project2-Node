@@ -1,5 +1,5 @@
 module.exports = app => {
-    const courses = require("../controllers/course.controller.js");
+    const courses = require("../controllers/courses.controller.js");
   
     // Create a new Course
     app.post("/courses", courses.create);
