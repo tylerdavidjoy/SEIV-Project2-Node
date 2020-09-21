@@ -7,14 +7,14 @@ module.exports = app => {
     // Retrieve all Courses
     app.get("/courses", courses.findAll);
   
-    // Retrieve a single Course with customerId
-    app.get("/courses/:customerId", courses.findOne);
+    // Retrieve a single Course with courseId
+    app.get("/courses/:courseId", courses.findOne);
   
-    // Update a Course with customerId
-    app.put("/courses/:customerId", courses.update);
+    // Update a Course with courseId
+    app.put("/courses/:courseId", courses.update);
   
-    // Delete a Course with customerId
-    app.delete("/courses/:customerId", courses.delete);
+    // Delete a Course with courseId
+    app.delete("/courses/:courseId", courses.delete);
   
     // Create a new Course
     app.delete("/courses", courses.deleteAll);
