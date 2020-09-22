@@ -53,11 +53,11 @@ exports.findOne = (req, res) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Course with id ${req.params.courseId}.`
+              message: `Not found Course with Course_Number ${req.params.courseId}.`
             });
           } else {
             res.status(500).send({
-              message: "Error retrieving Course with id " + req.params.courseId
+              message: "Error retrieving Course with Course_Number " + req.params.courseId
             });
           }
         } else res.send(data);
