@@ -29,7 +29,7 @@ Course.create = (newCourse, result) => {
 };
 
 Course.findById = (courseId, result) => {
-  sql.query(`SELECT * FROM courses WHERE id = ${courseId}`, (err, res) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -84,7 +84,7 @@ Course.updateById = (id, course, result) => {
 };
 
 Course.remove = (id, result) => {
-  sql.query("DELETE FROM courses WHERE id = ?", id, (err, res) => {
+  sql.query(`DELETE FROM courses WHERE courses.Course_Number = "${Id}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
