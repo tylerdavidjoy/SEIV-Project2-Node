@@ -23,13 +23,13 @@ Course.create = (newCourse, result) => {
       return;
     }
 
-    console.log("created course: ", { id: res.insertId, ...newCourse });
-    result(null, { id: res.insertId, ...newCourse });
+    console.log("created course: ", { Course_Number: res.insertId, ...newCourse });
+    result(null, { Course_Number: res.insertId, ...newCourse });
   });
 };
 
 Course.findById = (courseId, result) => {
-  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId}"`, (err, res) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId.trim()}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
