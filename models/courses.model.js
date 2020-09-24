@@ -82,7 +82,7 @@ Course.updateById = (id, course, result) => {
 };
 
 Course.remove = (id, result) => {
-  sql.query(`DELETE FROM courses WHERE Course_Number = "${Id}"`, (err, res) => {
+  sql.query(`DELETE FROM courses WHERE Course_Number = "${id.trim()}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
