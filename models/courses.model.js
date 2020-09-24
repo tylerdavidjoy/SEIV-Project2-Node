@@ -62,9 +62,7 @@ Course.getAll = result => {
 
 Course.updateById = (id, course, result) => {
   sql.query(
-    "UPDATE courses SET email = ?, name = ?, active = ? WHERE id = ?",
-    [course.email, course.name, course.active, id],
-    (err, res) => {
+    `UPDATE courses SET Course_Number = "${id}", Course_Name = "${course.Course_Name}", Course_Professor_Full_Name = "${course.Course_Professor_Full_Name}", Course_Semester = "${course.Course_Semester}", Course_Credit = ${course.Course_Credit}, Course_Start_Time = '${course.Course_Start_Time}', Course_End_Time = '${course.Course_End_Time}', Course_Room = "${course.Course_Room}", Course_Description = "${course.Course_Description}", Course_Department = "${course.Course_Department}", Course_Level = ${course.Course_Level} WHERE Course_Number = "${id}"`,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -84,7 +82,7 @@ Course.updateById = (id, course, result) => {
 };
 
 Course.remove = (id, result) => {
-  sql.query(`DELETE FROM courses WHERE courses.Course_Number = "${Id}"`, (err, res) => {
+  sql.query(`DELETE FROM courses WHERE Course_Number = "${Id}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
