@@ -1,4 +1,5 @@
 const Course = require("../models/courses.model.js");
+const coursesRoutes = require("../routes/courses.routes.js");
 
 // Create and Save a new Course
 exports.create = (req, res) => {
@@ -37,16 +38,31 @@ exports.create = (req, res) => {
 
 // Retrieve all Courses from the database.
 exports.findAll = (req, res) => {
-    Course.getAll((err, data) => {
-        if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving courses."
-          });
-        else res.send(data);
-      });
-};
+  const sort = req.query.sort;
+  const order = req.query.order;
+  if(sort == "course" && order == "forwards")
+  {
+    Course.sortByCourseNameForwards((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }else{
 
+    Course.getAll((err, data) => {
+      if (err)
+      res.status(500).send({
+        message:
+        err.message || "Some error occurred while retrieving courses."
+      });
+      else res.send(data);
+    });
+  };
+}
+  
 // Find a single Course with a courseId
 exports.findOne = (req, res) => {
     Course.findById(req.params.courseId, (err, data) => {

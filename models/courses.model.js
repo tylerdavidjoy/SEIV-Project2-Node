@@ -60,6 +60,19 @@ Course.getAll = result => {
   });
 };
 
+Course.sortByCourseNameForwards = result => {
+  sql.query("SELECT * FROM courses ORDER BY courses.Course_Name", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
 Course.updateById = (id, course, result) => {
   sql.query(
     "UPDATE courses SET email = ?, name = ?, active = ? WHERE id = ?",
