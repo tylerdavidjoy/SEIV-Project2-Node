@@ -8,7 +8,7 @@ module.exports = app => {
     app.get("/courses", courses.findAll);
   
     // Retrieve a single Course with courseId
-    app.get("/courses/:courseId", courses.findOne);
+    app.get("/courses/id=:courseId", courses.findOne);
   
     // Update a Course with courseId
     app.put("/courses/:courseId", courses.update);

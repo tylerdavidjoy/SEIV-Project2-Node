@@ -60,6 +60,19 @@ Course.getAll = result => {
   });
 };
 
+Course.sortByCourseNameForwards = result => {
+  sql.query("SELECT * FROM courses ORDER BY courses.Course_Name", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
 Course.updateById = (id, course, result) => {
   sql.query(
     `UPDATE courses SET Course_Number = "${id}", Course_Name = "${course.Course_Name}", Course_Professor_Full_Name = "${course.Course_Professor_Full_Name}", Course_Semester = "${course.Course_Semester}", Course_Credit = ${course.Course_Credit}, Course_Start_Time = '${course.Course_Start_Time}', Course_End_Time = '${course.Course_End_Time}', Course_Room = "${course.Course_Room}", Course_Description = "${course.Course_Description}", Course_Department = "${course.Course_Department}", Course_Level = ${course.Course_Level} WHERE Course_Number = "${id}"`,(err, res) => {
