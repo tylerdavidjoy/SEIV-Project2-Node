@@ -16,20 +16,20 @@ const Course = function(course) {
 };
 
 Course.create = (newCourse, result) => {
-  sql.query("INSERT INTO courses SET ?", newCourse, (err, res) => {
+  sql.query(`INSERT INTO courses.courses VALUES( "${newCourse.Course_Number}", "${newCourse.Course_Name}", "${newCourse.Course_Professor_Full_Name}", "${newCourse.Course_Semester}", ${newCourse.Course_Credit}, '${newCourse.Course_Start_Time}', '${newCourse.Course_End_Time}', "${newCourse.Course_Room}", "${newCourse.Course_Description}", "${newCourse.Course_Department}", ${newCourse.Course_Level})`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created course: ", { id: res.insertId, ...newCourse });
-    result(null, { id: res.insertId, ...newCourse });
+    console.log("created course: ", { Course_Number: res.insertId, ...newCourse });
+    result(null, { Course_Number: res.insertId, ...newCourse });
   });
 };
 
 Course.findById = (courseId, result) => {
-  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId}"`, (err, res) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId.trim()}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -109,9 +109,7 @@ Course.sortByCourseNumber = result => {
 
 Course.updateById = (id, course, result) => {
   sql.query(
-    "UPDATE courses SET email = ?, name = ?, active = ? WHERE id = ?",
-    [course.email, course.name, course.active, id],
-    (err, res) => {
+    `UPDATE courses SET Course_Number = "${id}", Course_Name = "${course.Course_Name}", Course_Professor_Full_Name = "${course.Course_Professor_Full_Name}", Course_Semester = "${course.Course_Semester}", Course_Credit = ${course.Course_Credit}, Course_Start_Time = '${course.Course_Start_Time}', Course_End_Time = '${course.Course_End_Time}', Course_Room = "${course.Course_Room}", Course_Description = "${course.Course_Description}", Course_Department = "${course.Course_Department}", Course_Level = ${course.Course_Level} WHERE Course_Number = "${id}"`,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -131,7 +129,7 @@ Course.updateById = (id, course, result) => {
 };
 
 Course.remove = (id, result) => {
-  sql.query(`DELETE FROM courses WHERE courses.Course_Number = "${Id}"`, (err, res) => {
+  sql.query(`DELETE FROM courses WHERE Course_Number = "${id.trim()}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
