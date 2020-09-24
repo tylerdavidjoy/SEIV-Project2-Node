@@ -16,7 +16,10 @@ const Course = function(course) {
 };
 
 Course.create = (newCourse, result) => {
-  sql.query("INSERT INTO courses SET ?", newCourse, (err, res) => {
+  console.log("PeePooPeePoo:" + newCourse.Course_Name);
+  //var parsed = JSON.parse(newCourse);
+  //console.log("PeePeePooPoo:" + parsed);
+  sql.query(`INSERT INTO courses.courses VALUES( "${newCourse.Course_Number}", "${newCourse.Course_Name}", "${newCourse.Course_Professor_Full_Name}", "${newCourse.Course_Semester}", ${newCourse.Course_Credit}, '${newCourse.Course_Start_Time}', '${newCourse.Course_End_Time}', "${newCourse.Course_Room}", "${newCourse.Course_Description}", "${newCourse.Course_Department}", ${newCourse.Course_Level})`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
