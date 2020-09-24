@@ -40,6 +40,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const sort = req.query.sort;
   const order = req.query.order;
+  //Get all courses sorted my course name A-Z
   if(sort == "course" && order == "forwards")
   {
     Course.sortByCourseNameForwards((err, data) => {
@@ -51,9 +52,34 @@ exports.findAll = (req, res) => {
       else res.send(data);
     });
   }
+  //Get all courses sorted my course name Z-A
   else if(sort == "course" && order == "backwards")
   {
     Course.sortByCourseNameBackwards((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }
+  //Get all courses sorted my professor name
+  else if (sort == "prof")
+  {
+    Course.sortByProfName((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }
+  //Get all courses sorted by course number
+  else if (sort == "number")
+  {
+    Course.sortByCourseNumber((err, data) => {
       if (err)
         res.status(500).send({
           message:

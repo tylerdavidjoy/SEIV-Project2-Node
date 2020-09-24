@@ -83,6 +83,30 @@ Course.sortByCourseNameBackwards = result => {
   });
 };
 
+Course.sortByProfName = result => {
+  sql.query("SELECT * FROM courses ORDER BY courses.Course_Professor_Full_Name", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
+Course.sortByCourseNumber = result => {
+  sql.query("SELECT courses.Course_Number FROM courses ORDER BY courses.Course_Number", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
 Course.updateById = (id, course, result) => {
   sql.query(
     "UPDATE courses SET email = ?, name = ?, active = ? WHERE id = ?",
