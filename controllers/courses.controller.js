@@ -50,7 +50,19 @@ exports.findAll = (req, res) => {
         });
       else res.send(data);
     });
-  }else{
+  }
+  else if(sort == "course" && order == "backwards")
+  {
+    Course.sortByCourseNameBackwards((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }
+  else{
 
     Course.getAll((err, data) => {
       if (err)

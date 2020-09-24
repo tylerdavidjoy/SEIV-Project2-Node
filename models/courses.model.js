@@ -54,7 +54,6 @@ Course.getAll = result => {
       result(null, err);
       return;
     }
-
     console.log("courses: ", res);
     result(null, res);
   });
@@ -67,7 +66,18 @@ Course.sortByCourseNameForwards = result => {
       result(null, err);
       return;
     }
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
 
+Course.sortByCourseNameBackwards = result => {
+  sql.query("SELECT * FROM courses ORDER BY courses.Course_Name DESC", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
     console.log("courses: ", res);
     result(null, res);
   });
