@@ -96,7 +96,43 @@ Course.sortByProfName = result => {
 };
 
 Course.sortByCourseNumber = result => {
-  sql.query("SELECT courses.Course_Number FROM courses ORDER BY courses.Course_Number", (err, res) => {
+  sql.query("SELECT * FROM courses ORDER BY courses.Course_Number", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
+Course.filterByDepartment = (filterBy, result) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Department = "${filterBy}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
+Course.filterByCourseName = (filterBy, result) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Name = "${filterBy.trim()}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("courses: ", res);
+    result(null, res);
+  });
+};
+
+Course.filterByProfessor = (filterBy, result) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Professor_Full_Name = "${filterBy.trim()}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

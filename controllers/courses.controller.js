@@ -40,6 +40,10 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const sort = req.query.sort;
   const order = req.query.order;
+  // filterType determines what attribute we are filtering by
+  const filterType = req.query.filterType;
+  // filterBy determines what value we are looking for in said attribute
+  const filterBy = req.query.filterBy;
   //Get all courses sorted my course name A-Z
   if(sort == "course" && order == "forwards")
   {
@@ -88,8 +92,40 @@ exports.findAll = (req, res) => {
       else res.send(data);
     });
   }
+  else if (filterType == "dept")
+  {
+    Course.filterByDepartment(filterBy, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }
+  else if (filterType == "name")
+  {
+    Course.filterByCourseName(filterBy, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }
+  else if (filterType == "prof")
+  {
+    Course.filterByProfessor(filterBy, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving courses."
+        });
+      else res.send(data);
+    });
+  }
   else{
-
     Course.getAll((err, data) => {
       if (err)
       res.status(500).send({
