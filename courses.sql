@@ -1,4 +1,4 @@
-  CREATE TABLE `courses` (
+CREATE TABLE `courses` (
   `Course_Number` varchar(45) NOT NULL COMMENT 'This is the Primary Key for the Course listings',
   `Course_Name` varchar(45) NOT NULL COMMENT 'This is the Name of the Course listing',
   `Course_Professor_Full_Name` varchar(45) NOT NULL DEFAULT 'Faculty' COMMENT 'This is the Full name of the professor',
