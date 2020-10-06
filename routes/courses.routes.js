@@ -16,6 +16,6 @@ module.exports = app => {
     // Delete a Course with courseId
     app.delete("/courses/:courseId", courses.delete);
   
-    // Create a new Course
-    app.delete("/courses", courses.deleteAll);
+    // // Delete all courses
+    // app.delete("/courses", courses.deleteAll);
   };
