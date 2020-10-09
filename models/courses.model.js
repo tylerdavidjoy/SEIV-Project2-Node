@@ -2,6 +2,7 @@ const sql = require("./db.js");
 
 // constructor
 const Course = function(course) {
+  this.Course_Id = course.Course_Id;
   this.Course_Number = course.Course_Number;
   this.Course_Name = course.Course_Name;
   this.Course_Professor_Full_Name = course.Course_Professor_Full_Name;
@@ -16,7 +17,7 @@ const Course = function(course) {
 };
 
 Course.create = (newCourse, result) => {
-  sql.query(`INSERT INTO courses.courses VALUES( "${newCourse.Course_Number}", "${newCourse.Course_Name}", "${newCourse.Course_Professor_Full_Name}", "${newCourse.Course_Semester}", ${newCourse.Course_Credit}, '${newCourse.Course_Start_Time}', '${newCourse.Course_End_Time}', "${newCourse.Course_Room}", "${newCourse.Course_Description}", "${newCourse.Course_Department}", ${newCourse.Course_Level})`, (err, res) => {
+  sql.query(`INSERT INTO courses.courses VALUES( "","${newCourse.Course_Number}", "${newCourse.Course_Name}", "${newCourse.Course_Professor_Full_Name}", "${newCourse.Course_Semester}", ${newCourse.Course_Credit}, '${newCourse.Course_Start_Time}', '${newCourse.Course_End_Time}', "${newCourse.Course_Room}", "${newCourse.Course_Description}", "${newCourse.Course_Department}", ${newCourse.Course_Level})`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -145,7 +146,7 @@ Course.filterByProfessor = (filterBy, result) => {
 
 Course.updateById = (id, course, result) => {
   sql.query(
-    `UPDATE courses SET Course_Number = "${id}", Course_Name = "${course.Course_Name}", Course_Professor_Full_Name = "${course.Course_Professor_Full_Name}", Course_Semester = "${course.Course_Semester}", Course_Credit = ${course.Course_Credit}, Course_Start_Time = '${course.Course_Start_Time}', Course_End_Time = '${course.Course_End_Time}', Course_Room = "${course.Course_Room}", Course_Description = "${course.Course_Description}", Course_Department = "${course.Course_Department}", Course_Level = ${course.Course_Level} WHERE Course_Number = "${id}"`,(err, res) => {
+    `UPDATE courses SET Course_id = "${course.Course_id}", Course_Number = "${course.Course_Number}", Course_Name = "${course.Course_Name}", Course_Professor_Full_Name = "${course.Course_Professor_Full_Name}", Course_Semester = "${course.Course_Semester}", Course_Credit = ${course.Course_Credit}, Course_Start_Time = '${course.Course_Start_Time}', Course_End_Time = '${course.Course_End_Time}', Course_Room = "${course.Course_Room}", Course_Description = "${course.Course_Description}", Course_Department = "${course.Course_Department}", Course_Level = ${course.Course_Level} WHERE Course_Number = "${id}"`,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -183,17 +184,17 @@ Course.remove = (id, result) => {
   });
 };
 
-Course.removeAll = result => {
-  sql.query("DELETE FROM courses", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+// Course.removeAll = result => {
+//   sql.query("DELETE FROM courses", (err, res) => {
+//     if (err) {
+//       console.log("error: ", err);
+//       result(null, err);
+//       return;
+//     }
 
-    console.log(`deleted ${res.affectedRows} courses`);
-    result(null, res);
-  });
-};
+//     console.log(`deleted ${res.affectedRows} courses`);
+//     result(null, res);
+//   });
+// };
 
 module.exports = Course;
