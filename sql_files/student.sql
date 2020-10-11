@@ -12,3 +12,17 @@ CREATE TABLE `student` (
   `stu_hrs_enrolled` int(11) DEFAULT NULL,
   PRIMARY KEY (`stu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `courses`.`student` 
+CHANGE COLUMN `major_id` `major_id` INT(11) NOT NULL ,
+CHANGE COLUMN `plan_id` `plan_id` INT(11) NOT NULL ,
+CHANGE COLUMN `adv_id` `adv_id` INT(11) NOT NULL ,
+ADD CONSTRAINT `major_id`
+  FOREIGN KEY (`major_id`)
+  REFERENCES `courses`.`major` (`major_id`),
+ADD CONSTRAINT plan_id
+	FOREIGN KEY (plan_id)
+    REFERENCES plan (plan_id),
+ADD CONSTRAINT adv_id
+	FOREIGN KEY (adv_id)
+    REFERENCES advisor (adv_id);
