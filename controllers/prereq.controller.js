@@ -11,7 +11,7 @@ exports.create = (req, res) => {
   }
 
   // Create a Prerequisite
-  const Prereq = new Prereq({
+  const prereq = new Prereq({
     course_id: req.body.course_id,
     prereq_id: req.body.prereq_id
   });
@@ -128,22 +128,22 @@ exports.findAll = (req, res) => {
   };
 //}
   
-// // Find a single Course with a courseId
-// exports.findOne = (req, res) => {
-//     Course.findById(req.params.courseId, (err, data) => {
-//         if (err) {
-//           if (err.kind === "not_found") {
-//             res.status(404).send({
-//               message: `Not found Course with Course_Number ${req.params.courseId}.`
-//             });
-//           } else {
-//             res.status(500).send({
-//               message: "Error retrieving Course with Course_Number " + req.params.courseId
-//             });
-//           }
-//         } else res.send(data);
-//       });
-// };
+// Find a single Course with a courseId
+exports.findOne = (req, res) => {
+    Prereq.findById(req.params.courseId, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Not found Course with Course_Id ${req.params.courseId}.`
+            });
+          } else {
+            res.status(500).send({
+              message: "Error retrieving Course with Course_Id " + req.params.courseId
+            });
+          }
+        } else res.send(data);
+      });
+};
 
 // // Update a Course identified by the courseId in the request
 // exports.update = (req, res) => {
@@ -173,22 +173,39 @@ exports.findAll = (req, res) => {
 //   );
 // };
 
-// // Delete a Course with the specified courseId in the request
-// exports.delete = (req, res) => {
-//     Course.remove(req.params.courseId, (err, data) => {
-//         if (err) {
-//           if (err.kind === "not_found") {
-//             res.status(404).send({
-//               message: `Not found Course with id ${req.params.courseId}.`
-//             });
-//           } else {
-//             res.status(500).send({
-//               message: "Could not delete Course with id " + req.params.courseId
-//             });
-//           }
-//         } else res.send({ message: `Course was deleted successfully!` });
-//       });
-// };
+// Delete a Course with the specified courseId in the request
+exports.delete = (req, res) => {
+    Prereq.remove(req.params.courseId, req.params.prereqId, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Not found Course with id ${req.params.courseId} or Prereq with id ${req.params.prereqId}`
+            });
+          } else {
+            res.status(500).send({
+              message: "Could not delete Course with id " + req.params.courseId + " or Prereq with id " + req.params.prereqId
+            });
+          }
+        } else res.send({ message: `Course was deleted successfully!` });
+      });
+};
+
+//Delete all the prereq of a courseId
+exports.deleteAllById = (req, res) => {
+  Prereq.removeById(req.params.courseId, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Course with id ${req.params.courseId}`
+          });
+        } else {
+          res.status(500).send({
+            message: "Could not delete Course with id " + req.params.courseId
+          });
+        }
+      } else res.send({ message: `Course was deleted successfully!` });
+    });
+};
 
 // // Delete all Courses from the database.
 // exports.deleteAll = (req, res) => {

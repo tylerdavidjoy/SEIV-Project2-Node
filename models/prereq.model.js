@@ -1,44 +1,44 @@
 const sql = require("./db.js");
 
 // constructor
-const prereq = function(course) {
+const Prereq = function(prereq) {
   this.course_id = prereq.course_id;
   this.prereq_id = prereq.prereq_id
 };
 
-// Course.create = (newCourse, result) => {
-//   sql.query(`INSERT INTO courses.courses VALUES( "","${newCourse.Course_Number}", "${newCourse.Course_Name}", "${newCourse.Course_Professor_Full_Name}", "${newCourse.Course_Semester}", ${newCourse.Course_Credit}, '${newCourse.Course_Start_Time}', '${newCourse.Course_End_Time}', "${newCourse.Course_Room}", "${newCourse.Course_Description}", "${newCourse.Course_Department}", ${newCourse.Course_Level})`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(err, null);
-//       return;
-//     }
+Prereq.create = (newCourse, result) => {
+  sql.query(`INSERT INTO courses.course_prereq VALUES( ${newCourse.course_id}, ${newCourse.prereq_id})`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
 
-//     console.log("created course: ", { Course_Number: res.insertId, ...newCourse });
-//     result(null, { Course_Number: res.insertId, ...newCourse });
-//   });
-// };
+    console.log("created course: ", { course_id: res.insertId, ...newCourse });
+    result(null, { course_id: res.insertId, ...newCourse });
+  });
+};
 
-// Course.findById = (courseId, result) => {
-//   sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId.trim()}"`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(err, null);
-//       return;
-//     }
+Prereq.findById = (courseId, result) => {
+  sql.query(`SELECT * FROM course_prereq WHERE course_id = "${courseId}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
 
-//     if (res.length) {
-//       console.log("found course: ", res[0]);
-//       result(null, res[0]);
-//       return;
-//     }
+    if (res.length) {
+      console.log("found course: ", res[0]);
+      result(null, res);//Changed from res[0] to res to allow the query to get all of the listings
+      return;
+    }
 
-//     // not found Course with the id
-//     result({ kind: "not_found" }, null);
-//   });
-// };
+    // not found Course with the id
+    result({ kind: "not_found" }, null);
+  });
+};
 
-prereq.getAll = result => {
+Prereq.getAll = result => {
   sql.query("SELECT * FROM course_prereq", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -155,36 +155,42 @@ prereq.getAll = result => {
 //   );
 // };
 
-// Course.remove = (id, result) => {
-//   sql.query(`DELETE FROM courses WHERE Course_Number = "${id.trim()}"`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
+Prereq.remove = (courseId, prereqId, result) => {
+  sql.query(`DELETE FROM course_prereq WHERE course_id = ${courseId} AND prereq_id = ${prereqId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
 
-//     if (res.affectedRows == 0) {
-//       // not found Course with the id
-//       result({ kind: "not_found" }, null);
-//       return;
-//     }
+    if (res.affectedRows == 0) {
+      // not found Course with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
 
-//     console.log("deleted course with id: ", id);
-//     result(null, res);
-//   });
-// };
+    console.log("deleted course with id: ", courseId);
+    result(null, res);
+  });
+};
 
-// Course.removeAll = result => {
-//   sql.query("DELETE FROM courses", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
+Prereq.removeById = (courseId, result) => {
+  sql.query(`DELETE FROM course_prereq WHERE course_id = ${courseId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
 
-//     console.log(`deleted ${res.affectedRows} courses`);
-//     result(null, res);
-//   });
-// };
+    if (res.affectedRows == 0) {
+      // not found Course with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
 
-module.exports = prereq;
+    console.log("deleted course with id: ", courseId);
+    result(null, res);
+  });
+};
+
+module.exports = Prereq;
