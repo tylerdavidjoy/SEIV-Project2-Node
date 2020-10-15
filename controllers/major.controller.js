@@ -131,74 +131,62 @@ exports.findAll = (req, res) => {
   
 // Find a single Course with a courseId
 exports.findOne = (req, res) => {
-    Major.findByName(req.params.majorName, (err, data) => {
+    Major.findByName(req.params.major_name, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Major with Major Name ${req.params.majorName}.`
+              message: `Not found Major with Major Name ${req.params.major_name}.`
             });
           } else {
             res.status(500).send({
-              message: "Error retrieving Major with Major Name " + req.params.majorName
+              message: "Error retrieving Major with Major Name " + req.params.major_name
             });
           }
         } else res.send(data);
       });
 };
 
-// // Update a Course identified by the courseId in the request
-// exports.update = (req, res) => {
-//   // Validate Request
-//   if (!req.body) {
-//     res.status(400).send({
-//       message: "Content can not be empty!"
-//     });
-//   }
+// Update a Course identified by the courseId in the request
+exports.update = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
 
-//   Course.updateById(
-//     req.params.courseId,
-//     new Course(req.body),
-//     (err, data) => {
-//       if (err) {
-//         if (err.kind === "not_found") {
-//           res.status(404).send({
-//             message: `Not found Course with id ${req.params.courseId}.`
-//           });
-//         } else {
-//           res.status(500).send({
-//             message: "Error updating Course with id " + req.params.courseId
-//           });
-//         }
-//       } else res.send(data);
-//     }
-//   );
-// };
+  Major.updateByName(
+    req.params.majorName,
+    new Major(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Major with Name ${req.params.majorName}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Major with Name " + req.params.majorName
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
 
-// // Delete a Course with the specified courseId in the request
-// exports.delete = (req, res) => {
-//     Course.remove(req.params.courseId, (err, data) => {
-//         if (err) {
-//           if (err.kind === "not_found") {
-//             res.status(404).send({
-//               message: `Not found Course with id ${req.params.courseId}.`
-//             });
-//           } else {
-//             res.status(500).send({
-//               message: "Could not delete Course with id " + req.params.courseId
-//             });
-//           }
-//         } else res.send({ message: `Course was deleted successfully!` });
-//       });
-// };
-
-// // Delete all Courses from the database.
-// exports.deleteAll = (req, res) => {
-//     Course.removeAll((err, data) => {
-//         if (err)
-//           res.status(500).send({
-//             message:
-//               err.message || "Some error occurred while removing all courses."
-//           });
-//         else res.send({ message: `All Courses were deleted successfully!` });
-//       });
-// };
+// Delete a Course with the specified courseId in the request
+exports.delete = (req, res) => {
+    Major.remove(req.params.majorName, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Not found Major with name ${req.params.majorName}.`
+            });
+          } else {
+            res.status(500).send({
+              message: "Could not delete Major with name " + req.params.majorName
+            });
+          }
+        } else res.send({ message: `Major was deleted successfully!` });
+      });
+};

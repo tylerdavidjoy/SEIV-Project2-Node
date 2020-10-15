@@ -45,11 +45,11 @@ module.exports = app => {
     app.get("/major", major.findAll);//Ready to Test
 
     // Retrieve a single Major with majorName
-    app.get("/major/name=:majorName", major.findOne);//Working On
+    app.get("/major/name=:major_name", major.findOne);//Ready to Test
 
     // Update a Course with courseId
-    app.put("/major/:courseId", courses.update);//Working On
+    app.put("/major/:majorName", major.update);//Ready to Test
 
     // Delete a Major with majorName
-    app.delete("/major/:courseId", courses.delete);//Working On
+    app.delete("/major/:majorName", major.delete);//Ready to Test
   };
