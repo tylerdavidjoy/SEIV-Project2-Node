@@ -25,16 +25,10 @@ module.exports = app => {
     app.post("/prereq", prereq.create);//Ready to Test
 
     // Retrieve all Prerequisites
-    app.get("/prereq", prereq.findAll);//Ready to Test
-
-    // Retrieve all Prerequisites of a single Course with courseId
-    app.get("/prereq/id=:courseId", prereq.findOne);//Ready to Test
+    app.get("/prereq", prereq.find);//Ready to Test
 
     // Delete a Prerequisite of a Course with courseId and prereqId
-    app.delete("/prereq/courseid=:courseId/prereqid=:prereqId", prereq.delete);//Ready to Test
-  
-    // Delete all Prereq of a courseId
-    app.delete("/prereq/id=:courseId", prereq.deleteAllById);//Ready to Test
+    app.delete("/prereq", prereq.delete);//Ready to Test
 
     //Major Table API
 
