@@ -29,6 +29,7 @@ Major.findByName = (majorName, result) => {
     }
 
     if (res.length) {
+      console.log(majorName);
       console.log("found major: ", res);
       result(null, res);
       return;

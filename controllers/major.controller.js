@@ -29,144 +29,54 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Courses from the database.
-exports.findAll = (req, res) => {
-  // const sort = req.query.sort;
-  // const order = req.query.order;
-  // // filterType determines what attribute we are filtering by
-  // const filterType = req.query.filterType;
-  // // filterBy determines what value we are looking for in said attribute
-  // const filterBy = req.query.filterBy;
-  // //Get all courses sorted my course name A-Z
-  // if(sort == "course" && order == "forwards")
-  // {
-  //   Course.sortByCourseNameForwards((err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // //Get all courses sorted my course name Z-A
-  // else if(sort == "course" && order == "backwards")
-  // {
-  //   Course.sortByCourseNameBackwards((err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // //Get all courses sorted my professor name
-  // else if (sort == "prof")
-  // {
-  //   Course.sortByProfName((err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // //Get all courses sorted by course number
-  // else if (sort == "number")
-  // {
-  //   Course.sortByCourseNumber((err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // else if (filterType == "dept")
-  // {
-  //   Course.filterByDepartment(filterBy, (err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // else if (filterType == "name")
-  // {
-  //   Course.filterByCourseName(filterBy, (err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // else if (filterType == "prof")
-  // {
-  //   Course.filterByProfessor(filterBy, (err, data) => {
-  //     if (err)
-  //       res.status(500).send({
-  //         message:
-  //           err.message || "Some error occurred while retrieving courses."
-  //       });
-  //     else res.send(data);
-  //   });
-  // }
-  // else{
-    Major.getAll((err, data) => {
-      if (err)
-      res.status(500).send({
-        message:
-        err.message || "Some error occurred while retrieving courses."
+exports.find = (req, res) => {
+    const name = req.query.name;
+    if(name == null)
+      Major.getAll((err, data) => {
+        if (err)
+        res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving courses."
+        });
+        else res.send(data);
       });
-      else res.send(data);
-    });
-  };
-//}
-  
-// Find a single Course with a courseId
-exports.findOne = (req, res) => {
-    Major.findByName(req.params.major_name, (err, data) => {
+    else
+      Major.findByName(name, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Major with Major Name ${req.params.major_name}.`
+              message: `Not found Major with Major Name ${name}.`
             });
           } else {
             res.status(500).send({
-              message: "Error retrieving Major with Major Name " + req.params.major_name
+              message: "Error retrieving Major with Major Name " + name
             });
           }
         } else res.send(data);
       });
-};
+  };
 
 // Update a Course identified by the courseId in the request
 exports.update = (req, res) => {
+  const name = req.query.name;
   // Validate Request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }
-
   Major.updateByName(
-    req.params.majorName,
+   name,
     new Major(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Major with Name ${req.params.majorName}.`
+            message: `Not found Major with Name ${name}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Major with Name " + req.params.majorName
+            message: "Error updating Major with Name " + name
           });
         }
       } else res.send(data);
@@ -176,15 +86,16 @@ exports.update = (req, res) => {
 
 // Delete a Course with the specified courseId in the request
 exports.delete = (req, res) => {
-    Major.remove(req.params.majorName, (err, data) => {
+  const name = req.query.name;
+    Major.remove(name, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Major with name ${req.params.majorName}.`
+              message: `Not found Major with name ${name}.`
             });
           } else {
             res.status(500).send({
-              message: "Could not delete Major with name " + req.params.majorName
+              message: "Could not delete Major with name " + name
             });
           }
         } else res.send({ message: `Major was deleted successfully!` });

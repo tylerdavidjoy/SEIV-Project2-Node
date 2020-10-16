@@ -41,15 +41,12 @@ module.exports = app => {
     // Create a new Major
     app.post("/major", major.create);//Ready to Test
 
-    // Retrieve all Majors
-    app.get("/major", major.findAll);//Ready to Test
-
-    // Retrieve a single Major with majorName
-    app.get("/major/name=:major_name", major.findOne);//Ready to Test
+    // Retrieve all Majors or a Major by name
+    app.get("/major", major.find);//Ready to Test
 
     // Update a Course with courseId
-    app.put("/major/:majorName", major.update);//Ready to Test
+    app.put("/major", major.update);//Ready to Test
 
     // Delete a Major with majorName
-    app.delete("/major/:majorName", major.delete);//Ready to Test
+    app.delete("/major", major.delete);//Ready to Test
   };
