@@ -19,9 +19,9 @@ Major.create = (newMajor, result) => {
     result(null, { major_id: res.insertId, ...newMajor });
   });
 };
-
+//${majorName.major_name}
 Major.findByName = (majorName, result) => {
-  sql.query(`SELECT * FROM major WHERE  major.major_name= "${majorName.major_name}"`, (err, res) => {
+  sql.query(`SELECT * FROM courses.major WHERE major.major_name = "${majorName}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -29,8 +29,9 @@ Major.findByName = (majorName, result) => {
     }
 
     if (res.length) {
-      console.log("found major: ", res[0]);
-      result(null, res[0]);
+      console.log(majorName);
+      console.log("found major: ", res);
+      result(null, res);
       return;
     }
 
@@ -135,9 +136,9 @@ Major.getAll = result => {
 //   });
 // };
 
-Major.updateById = (id, course, result) => {
+Major.updateByName = (Name, major, result) => {
   sql.query(
-    `UPDATE courses SET Course_id = "${course.Course_id}", Course_Number = "${course.Course_Number}", Course_Name = "${course.Course_Name}", Course_Professor_Full_Name = "${course.Course_Professor_Full_Name}", Course_Semester = "${course.Course_Semester}", Course_Credit = ${course.Course_Credit}, Course_Start_Time = '${course.Course_Start_Time}', Course_End_Time = '${course.Course_End_Time}', Course_Room = "${course.Course_Room}", Course_Description = "${course.Course_Description}", Course_Department = "${course.Course_Department}", Course_Level = ${course.Course_Level} WHERE Course_Number = "${id}"`,(err, res) => {
+    `UPDATE major SET major_id = ${major.major_id}, major_name = "${major.major_name}", major_total_hrs = ${major.major_total_hrs} WHERE major_name = "${Name}"`,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -150,14 +151,14 @@ Major.updateById = (id, course, result) => {
         return;
       }
 
-      console.log("updated course: ", { id: id, ...course });
-      result(null, { id: id, ...course });
+      console.log("updated major: ", { Name: Name, ...major });
+      result(null, { Name: Name, ...major });
     }
   );
 };
 
-Major.remove = (id, result) => {
-  sql.query(`DELETE FROM courses WHERE Course_Number = "${id.trim()}"`, (err, res) => {
+Major.remove = (name, result) => {
+  sql.query(`DELETE FROM major WHERE major_name = "${name.trim()}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -170,7 +171,7 @@ Major.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted course with id: ", id);
+    console.log("deleted major with name: ", name);
     result(null, res);
   });
 };

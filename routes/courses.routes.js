@@ -25,31 +25,22 @@ module.exports = app => {
     app.post("/prereq", prereq.create);//Ready to Test
 
     // Retrieve all Prerequisites
-    app.get("/prereq", prereq.findAll);//Ready to Test
-
-    // Retrieve all Prerequisites of a single Course with courseId
-    app.get("/prereq/id=:courseId", prereq.findOne);//Ready to Test
+    app.get("/prereq", prereq.find);//Ready to Test
 
     // Delete a Prerequisite of a Course with courseId and prereqId
-    app.delete("/prereq/courseid=:courseId/prereqid=:prereqId", prereq.delete);//Ready to Test
-  
-    // Delete all Prereq of a courseId
-    app.delete("/prereq/id=:courseId", prereq.deleteAllById);//Ready to Test
+    app.delete("/prereq", prereq.delete);//Ready to Test
 
     //Major Table API
 
     // Create a new Major
     app.post("/major", major.create);//Ready to Test
 
-    // Retrieve all Majors
-    app.get("/major", major.findAll);//Ready to Test
-
-    // Retrieve a single Major with majorName
-    app.get("/major/name=:majorName", major.findOne);//Working On
+    // Retrieve all Majors or a Major by name
+    app.get("/major", major.find);//Ready to Test
 
     // Update a Course with courseId
-    app.put("/major/:courseId", courses.update);//Working On
+    app.put("/major", major.update);//Ready to Test
 
     // Delete a Major with majorName
-    app.delete("/major/:courseId", courses.delete);//Working On
+    app.delete("/major", major.delete);//Ready to Test
   };
