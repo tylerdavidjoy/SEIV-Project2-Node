@@ -2,6 +2,7 @@ module.exports = app => {
     const courses = require("../controllers/courses.controller.js");
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
+    const user = require("../controllers/user.controller.js");
 
     // ----------------------------------
     // Course Table API

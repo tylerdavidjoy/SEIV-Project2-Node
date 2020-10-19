@@ -3,16 +3,18 @@ const Routes = require("../routes/courses.routes.js");
 
 // Create and Save a new Course
 exports.create = (req, res) => {
-    // Validate request
-    if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
+  // Validate request
+  if (!req.body) {
+  res.status(400).send({
+    message: "Content can not be empty!"
+  });
   }
+  console.log(req.body);
   const user = new User({
-    //attributes
-  })
-
+    user_role: req.body.user_role,
+    user_email: req.body.user_email
+  });
+  console.log(user);
   User.create(user, (err, data) => {
     if (err)
       res.status(500).send({
@@ -39,7 +41,7 @@ exports.find = (req, res) => {
     });
   // if this is a GET by Id call
   else if(userid != null)
-    User.findById(userId, (err, data) => {
+    User.findById(userid, (err, data) => {
         if (err)
           res.status(500).send({
             message:
@@ -57,4 +59,49 @@ exports.find = (req, res) => {
         });
       else res.send(data);
     });
+};
+
+exports.update = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  User.updateById(
+    req.query.userid,
+    new User(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found User with id ${req.query.userid}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating User with id " + req.query.userid
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+exports.delete = (req,res) => {
+  const userid = req.query.userid;
+  
+  User.remove(userid, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found User with id ${userid}`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete User with id " + userid
+        });
+      }
+    } else res.send({ message: `User was deleted successfully!` });
+  });
 };
