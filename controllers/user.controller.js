@@ -9,12 +9,10 @@ exports.create = (req, res) => {
     message: "Content can not be empty!"
   });
   }
-  console.log(req.body);
   const user = new User({
     user_role: req.body.user_role,
     user_email: req.body.user_email
   });
-  console.log(user);
   User.create(user, (err, data) => {
     if (err)
       res.status(500).send({

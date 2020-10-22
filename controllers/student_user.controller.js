@@ -2,7 +2,7 @@ const Student_User = require("../models/student_user.model.js");
 const Routes = require("../routes/courses.routes.js");
 
 // Create and Save a new Course
-exports.create = (req, res) => {
+/*exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
     res.status(400).send({
@@ -25,15 +25,15 @@ exports.create = (req, res) => {
       });
     else res.send(data);
   });
-};
+};*/
 
 // Retrieve all Student_User from the database.
 exports.find = (req, res) => {
-    const userId = req.query.userid;
-    const stuId = req.query.stuid;
+    const userid = req.query.userid;
+    const stuid = req.query.stuid;
     //if this is a GET ALL call 
     if(userid == null && stuid == null)
-        Student_User.getAll((err, data) => {
+        Student_User.findAll((err, data) => {
         if (err)
         res.status(500).send({
             message:
@@ -43,30 +43,30 @@ exports.find = (req, res) => {
     });
     //if this is a GET by userId call
     else if(userid != null && stuid == null)
-        Student_User.findByUserId(userId, (err, data) => {
+        Student_User.findByUserId(userid, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
             res.status(404).send({
-                message: `Not found Student_User with User_Id ${userId}.`
+                message: `Not found Student_User with User_Id ${userid}.`
             });
             } else {
             res.status(500).send({
-                message: "Error retrieving Student_User with User_Id " + userId
+                message: "Error retrieving Student_User with User_Id " + userid
             });
             }
         } else res.send(data);
     });
     //if this is a GET by stuId call
     else
-        Student_User.findByStuId(stuId, (err, data) => {
+        Student_User.findByStuId(stuid, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Student_User with Stu_Id ${stuId}.`
+              message: `Not found Student_User with Stu_Id ${stuid}.`
             });
           } else {
             res.status(500).send({
-              message: "Error retrieving Student_User with Stu_Id " + stuId
+              message: "Error retrieving Student_User with Stu_Id " + stuid
             });
           }
         } else res.send(data);
@@ -74,7 +74,7 @@ exports.find = (req, res) => {
 };
 
 // Delete a Student_User with the specified id in the request
-exports.delete = (req, res) => {
+/*exports.delete = (req, res) => {
     const userId = req.query.userid;
     const stuId = req.query.stuid;
     if(userId != null)
@@ -105,4 +105,4 @@ exports.delete = (req, res) => {
             }
         } else res.send({ message: `Student_User was deleted successfully!` });
         });
-};
+};*/

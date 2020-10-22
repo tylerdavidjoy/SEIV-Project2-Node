@@ -3,6 +3,7 @@ module.exports = app => {
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
     const user = require("../controllers/user.controller.js");
+    const student_user = require("../controllers/student_user.controller");
 
     // ----------------------------------
     // Course Table API
@@ -67,4 +68,11 @@ module.exports = app => {
 
     // Delete a user
     app.delete("/user", user.delete);
+
+    // ----------------------------------
+    // Student_User Table API
+    // ----------------------------------
+
+    // Find student_user(s) by a parameter
+    app.get("/student_user", student_user.find);
   };
