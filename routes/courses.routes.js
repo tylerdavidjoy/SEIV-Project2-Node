@@ -4,6 +4,7 @@ module.exports = app => {
     const major = require("../controllers/major.controller.js");
     const user = require("../controllers/user.controller.js");
     const student_user = require("../controllers/student_user.controller");
+    const student = require("../controllers/student.controller");
 
     // ----------------------------------
     // Course Table API
@@ -75,4 +76,12 @@ module.exports = app => {
 
     // Find student_user(s) by a parameter
     app.get("/student_user", student_user.find);
+
+    // ----------------------------------
+    // Student Table API
+    // ----------------------------------
+
+    app.get("/student", student.find);
+
+    app.put("/student", student.update);
   };
