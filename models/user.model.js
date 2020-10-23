@@ -8,19 +8,81 @@ const User = function(user) {
 };
 
 User.create = (user, result) => {
-
-  console.log(user.user_role);
-  sql.query(`INSERT INTO courses.user VALUES( "", "${user.user_role}", "${user.user_email}")`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
+  let userPromise = new Promise(function(userResolve, userReject)
+  {
+    sql.query("INSERT INTO user SET ?", user, (err, res) => {
+      if (err) {
+        result(err, null);
+        userReject(err);
+      }
+      else
+      {
+        user.user_id = res.insertId;
+        console.log("created user: ", user);
+        result(null, user);
+        userResolve(user);
+      }
+    });
+  });
+  // Wait for user to be created then create corresponding tables
+  userPromise.then(
+    function(response) {
+      // Determine the role of the created user and create corresponding tables
+      if(response.user_role == "student") {createStudent(response);}
+      // put advisor create here
+      // put admin create here
+    },
+    function(error) {
+      console.log("error: ", error);
       return;
     }
-
-    console.log("created user: ", { user_id: res.insertId, ...user });
-    result(null, { user_id: res.insertId, ...user });
-  });
+  );
 };
+
+// If the created user's role was student, make student, plan, and student_user tables 
+// where all tables have appropriate foreign keys
+function createStudent(user) {
+  // Create student
+  let stuPromise = new Promise(function(stuResolve, stuReject)
+  {
+    sql.query(`INSERT INTO student VALUES()`, (err, res) => {
+      if (err) {
+        result(err, null);
+        stuReject(err);
+      }
+      else
+      {
+        console.log("created student with id: ", res.insertId);
+        stuResolve(res);
+      }
+    }); 
+  });
+  // Wait for student to be created then make plan and student_user
+  stuPromise.then(
+    function(response) {
+      sql.query(`INSERT INTO plan VALUES("", ${response.insertId})`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        else {console.log("created plan where plan_id= ", res.insertId, " and stu_id= ", response.insertId);}
+      });
+      sql.query(`INSERT INTO student_user VALUES(${user.user_id}, ${response.insertId})`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        console.log("created student_user where user_id= ", user.user_id, " and stu_id= ", response.insertId);
+      });
+    },
+    function(error) {
+      console.log("error: ", error);
+      return;
+    }
+  );
+}
 
 User.findAll = result => {
   sql.query("SELECT * FROM user", (err, res) => {
