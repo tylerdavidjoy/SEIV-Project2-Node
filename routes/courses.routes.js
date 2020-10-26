@@ -2,6 +2,7 @@ module.exports = app => {
     const courses = require("../controllers/courses.controller.js");
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
+    const course_major = require("../controllers/Course_major.controller.js");
     const user = require("../controllers/user.controller.js");
     const student_user = require("../controllers/student_user.controller");
 
@@ -52,7 +53,17 @@ module.exports = app => {
 
     // Delete a Major with majorName
     app.delete("/major", major.delete);//Ready to Test
+    //Course_Major Table API
 
+    // Create a new Major-Course
+    app.post("/course_major", course_major.create);//Ready to Test
+
+    // Retrieve all Majors or a Major by name
+    app.get("/course_major", course_major.find);//Ready to Test
+
+    // Delete a Major with majorName
+    app.delete("/course_major", course_major.delete);//Ready to Test
+  
     // ----------------------------------
     // User Table API
     // ----------------------------------
