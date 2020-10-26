@@ -60,22 +60,47 @@ function createStudent(user) {
   // Wait for student to be created then make plan and student_user
   stuPromise.then(
     function(response) {
-      sql.query(`INSERT INTO plan VALUES("", ${response.insertId})`, (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(err, null);
+      const student_id = response;
+      let stuPlanIdPromise = new Promise(function(stuPlanIdResolve, stuPlanIdReject)
+      {
+        sql.query(`INSERT INTO plan VALUES("", ${response.insertId})`, (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            stuPlanIdReject(err);
+          }
+          else 
+          {
+            console.log("created plan where plan_id= ", res.insertId, " and stu_id= ", response.insertId);
+            stuPlanIdResolve(res.insertId);
+          }
+        });
+        sql.query(`INSERT INTO student_user VALUES(${user.user_id}, ${response.insertId})`, (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          console.log("created student_user where user_id= ", user.user_id, " and stu_id= ", response.insertId);
+        });
+      });
+      stuPlanIdPromise.then(
+        function(response) {
+          sql.query(`UPDATE student SET plan_id = "${response}"  WHERE stu_id = ${student_id.insertId}`,(err, res) => {
+            if (err) {
+              console.log("error: ", err);
+              result(null, err);
+              return;
+            }
+          }
+        );
+        },
+        function(error)
+        {
+          console.log("error: ", error);
           return;
         }
-        else {console.log("created plan where plan_id= ", res.insertId, " and stu_id= ", response.insertId);}
-      });
-      sql.query(`INSERT INTO student_user VALUES(${user.user_id}, ${response.insertId})`, (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(err, null);
-          return;
-        }
-        console.log("created student_user where user_id= ", user.user_id, " and stu_id= ", response.insertId);
-      });
+      );
     },
     function(error) {
       console.log("error: ", error);
@@ -135,8 +160,7 @@ User.findByEmail = (userEmail, result) => {
 };
 
 User.updateById = (id, user, result) => {
-  sql.query(
-    `UPDATE user SET user_role = "${user.user_role}", user_email = "${user.user_email}"  WHERE user_id = ${id}`,(err, res) => {
+  sql.query(`UPDATE user SET user_email = "${user.user_email}"  WHERE user_id = ${id}`,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -156,7 +180,7 @@ User.updateById = (id, user, result) => {
 };
 
 User.remove = (id, result) => {
-  sql.query(`DELETE FROM user WHERE user_id = "${id}"`, (err, res) => {
+  sql.query(`SELECT * FROM user WHERE user_id = "${id}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -168,10 +192,50 @@ User.remove = (id, result) => {
       result({ kind: "not_found" }, null);
       return;
     }
-
-    console.log("deleted user with id: ", id);
+    console.log(res[0].user_role);
+    if(res[0].user_role == "student")
+    {
+      console.log("true");
+      stuDelete(id);
+    }
     result(null, res);
   });
 };
 
+function stuDelete(id)
+{
+  let stuDelPromise = new Promise(function(stuDelResolve, stuDelReject) {
+    sql.query(`SELECT * FROM student_user WHERE user_id = "${id}"`, (err, res) => {
+      if (err) {
+        stuDelReject(err);
+      }
+      else
+      {
+        stuDelResolve(res[0].stu_id);
+      }
+    });
+  });
+  stuDelPromise.then(
+    // response is id of corresponding student to be deleted
+    function(response) {
+      sql.query(`DELETE FROM user WHERE user_id = "${id}"`, (err, res) => {
+        if (err) {
+          return;
+        }
+      });
+      console.log(response);
+      sql.query(`DELETE FROM student WHERE stu_id = "${response}"`, (err, res) => {
+        if (err) {
+          return;
+        }
+      });
+    },
+    function(error) {
+      console.log("error: ", error);
+      return;
+    }
+  );
+};
+
 module.exports = User;
+

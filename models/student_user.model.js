@@ -6,19 +6,6 @@ const Student_User = function(student_user) {
   this.stu_id = student_user.stu_id
 };
 
-/*Prereq.create = (newCourse, result) => {
-  sql.query(`INSERT INTO courses.course_prereq VALUES( ${newCourse.course_id}, ${newCourse.prereq_id})`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created course: ", { course_id: res.insertId, ...newCourse });
-    result(null, { course_id: res.insertId, ...newCourse });
-  });
-};
-*/
 Student_User.findAll = (result) => {
   sql.query("SELECT * FROM student_user", (err, res) => {
     if (err) {
