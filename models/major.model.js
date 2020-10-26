@@ -52,93 +52,9 @@ Major.getAll = result => {
   });
 };
 
-// Course.sortByCourseNameForwards = result => {
-//   sql.query("SELECT * FROM courses ORDER BY courses.Course_Name", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
-// Course.sortByCourseNameBackwards = result => {
-//   sql.query("SELECT * FROM courses ORDER BY courses.Course_Name DESC", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
-// Course.sortByProfName = result => {
-//   sql.query("SELECT * FROM courses ORDER BY courses.Course_Professor_Full_Name", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
-// Course.sortByCourseNumber = result => {
-//   sql.query("SELECT * FROM courses ORDER BY courses.Course_Number", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
-// Course.filterByDepartment = (filterBy, result) => {
-//   sql.query(`SELECT * FROM courses WHERE courses.Course_Department = "${filterBy}"`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
-// Course.filterByCourseName = (filterBy, result) => {
-//   sql.query(`SELECT * FROM courses WHERE courses.Course_Name = "${filterBy.trim()}"`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
-// Course.filterByProfessor = (filterBy, result) => {
-//   sql.query(`SELECT * FROM courses WHERE courses.Course_Professor_Full_Name = "${filterBy.trim()}"`, (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-//     console.log("courses: ", res);
-//     result(null, res);
-//   });
-// };
-
 Major.updateByName = (Name, major, result) => {
   sql.query(
-    `UPDATE major SET major_id = ${major.major_id}, major_name = "${major.major_name}", major_total_hrs = ${major.major_total_hrs} WHERE major_name = "${Name}"`,(err, res) => {
+    `UPDATE major SET major_name = "${major.major_name}", major_total_hrs = ${major.major_total_hrs} WHERE major_name = "${Name}"`,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
