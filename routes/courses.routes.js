@@ -1,5 +1,6 @@
 module.exports = app => {
     const courses = require("../controllers/courses.controller.js");
+    const semester = require("../controllers/semester.controller.js");
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
     const course_major = require("../controllers/Course_major.controller.js");
@@ -86,4 +87,17 @@ module.exports = app => {
 
     // Find student_user(s) by a parameter
     app.get("/student_user", student_user.find);
+
+    /********************
+    **Semester Table API
+    *********************/
+
+    // Create a new Semester
+    app.post("/semester", semester.create);//Ready to Test
+
+    // Retrieve all Semesters by: id, type, year, or plan id
+    app.get("/semester", semester.find);//Ready to Test
+
+    // Update a Semester with the id and a JSON
+    app.put("/semester", semester.update);//Ready to Test
   };
