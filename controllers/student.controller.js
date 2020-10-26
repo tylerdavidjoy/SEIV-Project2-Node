@@ -14,13 +14,22 @@ exports.find = (req, res) => {
         });
         // if this is a GET by Id call
     else if(stuid != null)
-        Student.findById(userid, (err, data) => {
-            if (err)
-                res.status(500).send({
-                    message:
-                        err.message || "Some error occurred while retrieving student."
-                });
-            else res.send(data);
+        Student.findById(stuid, (err, data) => {
+          if (err)
+          {
+            if (err.kind === "not_found")
+            {
+              res.status(404).send({
+                message: `Not found student with stu_id ${stuid}.`
+            });
+            }else {
+              res.status(500).send({
+                message:
+                  err.message || "Some error occurred while retrieving student."
+              });
+            }
+          }
+          else res.send(data);
     });
 };
 

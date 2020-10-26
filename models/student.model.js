@@ -45,8 +45,8 @@ Student.findById = (stuid, result) => {
 
 Student.updateById = (stuid, stu, result) => {
     sql.query(
-        `UPDATE student SET major_id = "${stu.major_id}", adv_id = "${stu.adv_id}, stu_name = "${stu.stu_name}", 
-        stu_grad_date = "${stu.stu_grad_date}", stu_classification = "${stu.stu_classification}"
+        `UPDATE student SET major_id = "${stu.major_id}", adv_id = "${stu.adv_id}", stu_name = "${stu.stu_name}", 
+        stu_grad_date = '${stu.stu_grad_date}', stu_classification = "${stu.stu_classification}"
         WHERE stu_id = ${stuid}`,(err, res) => {
           if (err) {
             console.log("error: ", err);

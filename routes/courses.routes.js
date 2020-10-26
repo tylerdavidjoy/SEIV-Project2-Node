@@ -81,7 +81,9 @@ module.exports = app => {
     // Student Table API
     // ----------------------------------
 
+    // Get student(s) by a parameter
     app.get("/student", student.find);
 
+    // Update a student with id obtained from parameter
     app.put("/student", student.update);
   };
