@@ -6,7 +6,9 @@ module.exports = app => {
     const major = require("../controllers/major.controller.js");
     const course_major = require("../controllers/Course_major.controller.js");
     const user = require("../controllers/user.controller.js");
-    const student_user = require("../controllers/student_user.controller");
+    const student_user = require("../controllers/student_user.controller.js");
+    const student = require("../controllers/student.controller.js");
+    const plan = require("../controllers/plan.controller.js");
 
     // ----------------------------------
     // Course Table API
@@ -89,9 +91,19 @@ module.exports = app => {
     // Find student_user(s) by a parameter
     app.get("/student_user", student_user.find);
 
-    /********************
-    **Semester Table API
-    *********************/
+    // ----------------------------------
+    // Student Table API
+    // ----------------------------------
+
+    // Get student(s) by a parameter
+    app.get("/student", student.find);
+
+    // Update a student with id obtained from parameter
+    app.put("/student", student.update);
+
+    // ----------------------------------
+    // Semester Table API
+    // ----------------------------------
 
     // Create a new Semester
     app.post("/semester", semester.create);//Ready to Test
@@ -114,4 +126,9 @@ module.exports = app => {
 
     // Delete a user
     app.delete("/semester_courses", semester_courses.delete);//Working On
+  
+    // Plan Table API
+    // ----------------------------------
+
+    app.get("/plan", plan.find);
   };

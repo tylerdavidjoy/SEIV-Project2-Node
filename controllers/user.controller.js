@@ -41,10 +41,19 @@ exports.find = (req, res) => {
   else if(userid != null)
     User.findById(userid, (err, data) => {
         if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving user."
+        {
+          if (err.kind === "not_found")
+          {
+            res.status(404).send({
+              message: `Not found user with user_id ${userid}.`
           });
+          }else {
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while retrieving user."
+            });
+          }
+        }
         else res.send(data);
     });
   // if this is a get by email call
