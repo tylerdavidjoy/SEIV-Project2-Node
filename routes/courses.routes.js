@@ -1,6 +1,7 @@
 module.exports = app => {
     const courses = require("../controllers/courses.controller.js");
     const semester = require("../controllers/semester.controller.js");
+    const semester_courses = require("../controllers/semester_courses.controller.js");
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
     const course_major = require("../controllers/Course_major.controller.js");
@@ -114,6 +115,18 @@ module.exports = app => {
     app.put("/semester", semester.update);//Ready to Test
 
     // ----------------------------------
+    // Semester_Courses API
+    // ----------------------------------
+
+    // Create a new User
+    app.post("/semester_courses", semester_courses.create);//Working On
+
+    // Find user(s) by a parameter
+    app.get("/semester_courses", semester_courses.find);//Working On
+
+    // Delete a user
+    app.delete("/semester_courses", semester_courses.delete);//Working On
+  
     // Plan Table API
     // ----------------------------------
 
