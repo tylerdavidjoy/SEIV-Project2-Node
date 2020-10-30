@@ -3,7 +3,7 @@ module.exports = app => {
     const semester = require("../controllers/semester.controller.js");
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
-    const course_major = require("../controllers/Course_major.controller.js");
+    const course_major = require("../controllers/course_major.controller.js");
     const user = require("../controllers/user.controller.js");
     const student_user = require("../controllers/student_user.controller.js");
     const student = require("../controllers/student.controller.js");
