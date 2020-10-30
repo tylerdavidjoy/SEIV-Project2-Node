@@ -3,5 +3,6 @@ CREATE TABLE `semester` (
   `plan_id` int(11) NOT NULL,
   `semester_type` varchar(45) DEFAULT NULL COMMENT 'the type of semester that is available',
   `year` int(11) DEFAULT NULL COMMENT 'The Year for the semester',
-  PRIMARY KEY (`semester_id`)
+  PRIMARY KEY (`semester_id`),
+  FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='This is the table for a semester of a plan';
