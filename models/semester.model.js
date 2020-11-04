@@ -127,6 +127,13 @@ Semester.update = (id, semester, result) => {
       result(null, { id: id, ...semester });
     }
   );
+  sql.query(`UPDATE plan SET plan_last_updated=NOW() WHERE plan_id = "${semester.plan_id}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+  })
 };
 
 module.exports = Semester;
