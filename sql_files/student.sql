@@ -1,8 +1,8 @@
 CREATE TABLE `student` (
   `stu_id` int(11) NOT NULL AUTO_INCREMENT,
-  `major_id` varchar(45) NOT NULL,
-  `plan_id` varchar(45) NOT NULL,
-  `adv_id` varchar(45) NOT NULL,
+  `major_id` varchar(45) NULL,
+  `plan_id` varchar(45) NULL,
+  `adv_id` varchar(45) NULL,
   `stu_gpa` float DEFAULT NULL,
   `stu_name` varchar(60) DEFAULT NULL,
   `stu_hrs_taken` int(11) DEFAULT NULL,
@@ -14,9 +14,9 @@ CREATE TABLE `student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `courses`.`student` 
-CHANGE COLUMN `major_id` `major_id` INT(11) NOT NULL ,
-CHANGE COLUMN `plan_id` `plan_id` INT(11) NOT NULL ,
-CHANGE COLUMN `adv_id` `adv_id` INT(11) NOT NULL ,
+CHANGE COLUMN `major_id` `major_id` INT(11) NULL ,
+CHANGE COLUMN `plan_id` `plan_id` INT(11) NULL ,
+CHANGE COLUMN `adv_id` `adv_id` INT(11) NULL ,
 ADD CONSTRAINT `major_id`
   FOREIGN KEY (`major_id`)
   REFERENCES `courses`.`major` (`major_id`),
