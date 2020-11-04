@@ -63,7 +63,7 @@ function createStudent(user) {
       const student_id = response;
       let stuPlanIdPromise = new Promise(function(stuPlanIdResolve, stuPlanIdReject)
       {
-        sql.query(`INSERT INTO plan VALUES("", ${response.insertId})`, (err, res) => {
+        sql.query(`INSERT INTO plan VALUES("", ${response.insertId}, NOW())`, (err, res) => {
           if (err) {
             console.log("error: ", err);
             result(err, null);
