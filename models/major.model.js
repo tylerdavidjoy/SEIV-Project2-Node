@@ -8,7 +8,7 @@ const Major = function(major) {
 };
 
 Major.create = (newMajor, result) => {
-  sql.query(`INSERT INTO major VALUES( ${newMajor.major_id},"${newMajor.major_name}", ${newMajor.major_total_hrs})`, (err, res) => {
+  sql.query(`INSERT INTO major VALUES( "","${newMajor.major_name}", ${newMajor.major_total_hrs})`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

@@ -9,7 +9,7 @@ const Semester = function(semester) {
 };
 
 Semester.create = (newSemester, result) => {
-  sql.query(`INSERT INTO semester VALUES( ${newSemester.plan_id},"${newSemester.semester_type}", "${newSemester.year}")`, (err, res) => {
+  sql.query(`INSERT INTO semester VALUES( "",${newSemester.plan_id},"${newSemester.semester_type}", "${newSemester.year}")`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
