@@ -198,15 +198,3 @@ exports.delete = (req, res) => {
         } else res.send({ message: `Course was deleted successfully!` });
       });
 };
-
-// // Delete all Courses from the database.
-// exports.deleteAll = (req, res) => {
-//     Course.removeAll((err, data) => {
-//         if (err)
-//           res.status(500).send({
-//             message:
-//               err.message || "Some error occurred while removing all courses."
-//           });
-//         else res.send({ message: `All Courses were deleted successfully!` });
-//       });
-// };

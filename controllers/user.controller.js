@@ -9,12 +9,10 @@ exports.create = (req, res) => {
     message: "Content can not be empty!"
   });
   }
-  console.log(req.body);
   const user = new User({
     user_role: req.body.user_role,
     user_email: req.body.user_email
   });
-  console.log(user);
   User.create(user, (err, data) => {
     if (err)
       res.status(500).send({
@@ -43,10 +41,19 @@ exports.find = (req, res) => {
   else if(userid != null)
     User.findById(userid, (err, data) => {
         if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving user."
+        {
+          if (err.kind === "not_found")
+          {
+            res.status(404).send({
+              message: `Not found user with user_id ${userid}.`
           });
+          }else {
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while retrieving user."
+            });
+          }
+        }
         else res.send(data);
     });
   // if this is a get by email call

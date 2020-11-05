@@ -1,8 +1,14 @@
 module.exports = app => {
     const courses = require("../controllers/courses.controller.js");
+    const semester = require("../controllers/semester.controller.js");
+    const semester_courses = require("../controllers/semester_courses.controller.js");
     const prereq = require("../controllers/prereq.controller.js");
     const major = require("../controllers/major.controller.js");
+    const course_major = require("../controllers/course_major.controller.js");
     const user = require("../controllers/user.controller.js");
+    const student_user = require("../controllers/student_user.controller.js");
+    const student = require("../controllers/student.controller.js");
+    const plan = require("../controllers/plan.controller.js");
 
     // ----------------------------------
     // Course Table API
@@ -51,7 +57,17 @@ module.exports = app => {
 
     // Delete a Major with majorName
     app.delete("/major", major.delete);//Ready to Test
+    //Course_Major Table API
 
+    // Create a new Major-Course
+    app.post("/course_major", course_major.create);//Ready to Test
+
+    // Retrieve all Majors or a Major by name
+    app.get("/course_major", course_major.find);//Ready to Test
+
+    // Delete a Major with majorName
+    app.delete("/course_major", course_major.delete);//Ready to Test
+  
     // ----------------------------------
     // User Table API
     // ----------------------------------
@@ -67,4 +83,52 @@ module.exports = app => {
 
     // Delete a user
     app.delete("/user", user.delete);
+
+    // ----------------------------------
+    // Student_User Table API
+    // ----------------------------------
+
+    // Find student_user(s) by a parameter
+    app.get("/student_user", student_user.find);
+
+    // ----------------------------------
+    // Student Table API
+    // ----------------------------------
+
+    // Get student(s) by a parameter
+    app.get("/student", student.find);
+
+    // Update a student with id obtained from parameter
+    app.put("/student", student.update);
+
+    // ----------------------------------
+    // Semester Table API
+    // ----------------------------------
+
+    // Create a new Semester
+    app.post("/semester", semester.create);//Ready to Test
+
+    // Retrieve all Semesters by: id, type, year, or plan id
+    app.get("/semester", semester.find);//Ready to Test
+
+    // Update a Semester with the id and a JSON
+    app.put("/semester", semester.update);//Ready to Test
+
+    // ----------------------------------
+    // Semester_Courses API
+    // ----------------------------------
+
+    // Create a new User
+    app.post("/semester_courses", semester_courses.create);//Working On
+
+    // Find user(s) by a parameter
+    app.get("/semester_courses", semester_courses.find);//Working On
+
+    // Delete a user
+    app.delete("/semester_courses", semester_courses.delete);//Working On
+  
+    // Plan Table API
+    // ----------------------------------
+
+    app.get("/plan", plan.find);
   };
