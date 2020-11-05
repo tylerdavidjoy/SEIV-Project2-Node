@@ -75,6 +75,7 @@ function createStudent(user) {
             stuPlanIdResolve(res.insertId);
           }
         });
+        
         sql.query(`INSERT INTO student_user VALUES(${user.user_id}, ${response.insertId})`, (err, res) => {
           if (err) {
             console.log("error: ", err);
@@ -92,8 +93,27 @@ function createStudent(user) {
               result(null, err);
               return;
             }
+          });
+          let date = new Date();
+          let year = date.getFullYear();
+          let type;
+          for(let i = 0; i < 8; i++)
+          {
+            if(i % 2 === 0)
+              type = 'fall';
+            else
+              type = 'spring';
+            if(i % 2 === 1)
+              year++;
+
+            sql.query(`INSERT INTO semester SET plan_id = "${response}", semester_type = "${type}", year = "${year}"`, (err, res) => {
+              if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+              }
+            });
           }
-        );
         },
         function(error)
         {
