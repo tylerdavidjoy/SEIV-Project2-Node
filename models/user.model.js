@@ -29,7 +29,7 @@ User.create = (user, result) => {
     function(response) {
       // Determine the role of the created user and create corresponding tables
       if(response.user_role == "student") {createStudent(response);}
-      // put advisor create here
+      else if (response.user_role == "advisor") {createAdvisor(response);}
       // put admin create here
     },
     function(error) {
@@ -39,15 +39,14 @@ User.create = (user, result) => {
   );
 };
 
-// If the created user's role was student, make student, plan, and student_user tables 
+// If the created user's role was student, make student, plan, semester, and student_user tables 
 // where all tables have appropriate foreign keys
 function createStudent(user) {
   // Create student
   let stuPromise = new Promise(function(stuResolve, stuReject)
   {
-    sql.query(`INSERT INTO student VALUES()`, (err, res) => {
+    sql.query(`INSERT INTO student SET stu_name = "${user.user_email}`, (err, res) => {
       if (err) {
-        result(err, null);
         stuReject(err);
       }
       else
@@ -66,7 +65,6 @@ function createStudent(user) {
         sql.query(`INSERT INTO plan VALUES("", ${response.insertId}, NOW())`, (err, res) => {
           if (err) {
             console.log("error: ", err);
-            result(err, null);
             stuPlanIdReject(err);
           }
           else 
@@ -79,7 +77,6 @@ function createStudent(user) {
         sql.query(`INSERT INTO student_user VALUES(${user.user_id}, ${response.insertId})`, (err, res) => {
           if (err) {
             console.log("error: ", err);
-            result(err, null);
             return;
           }
           console.log("created student_user where user_id= ", user.user_id, " and stu_id= ", response.insertId);
@@ -90,7 +87,6 @@ function createStudent(user) {
           sql.query(`UPDATE student SET plan_id = "${response}"  WHERE stu_id = ${student_id.insertId}`,(err, res) => {
             if (err) {
               console.log("error: ", err);
-              result(null, err);
               return;
             }
           });
@@ -109,7 +105,6 @@ function createStudent(user) {
             sql.query(`INSERT INTO semester SET plan_id = "${response}", semester_type = "${type}", year = "${year}"`, (err, res) => {
               if (err) {
                 console.log("error: ", err);
-                result(err, null);
                 return;
               }
             });
@@ -121,6 +116,41 @@ function createStudent(user) {
           return;
         }
       );
+    },
+    function(error) {
+      console.log("error: ", error);
+      return;
+    }
+  );
+}
+
+// If the created user's role was advisor, make advisor and advisor_user tables 
+// where all tables have appropriate foreign keys
+function createAdvisor(user) {
+  // Create student
+  let advPromise = new Promise(function(advResolve, advReject)
+  {
+    sql.query(`INSERT INTO advisor SET adv_name = "${user.user_email}"`, (err, res) => {
+      if (err) {
+        advReject(err);
+      }
+      else
+      {
+        console.log("created advisor with id: ", res.insertId);
+        advResolve(res);
+      }
+    }); 
+  });
+  // Wait for advisor to be created then make advisor_user
+  advPromise.then(
+    function(response) {
+      sql.query(`INSERT INTO advisor_user VALUES(${user.user_id}, ${response.insertId})`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          return;
+        }
+        console.log("created advisor_user where user_id= ", user.user_id, " and adv_id= ", response.insertId);
+      });
     },
     function(error) {
       console.log("error: ", error);
