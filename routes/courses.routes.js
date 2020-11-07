@@ -9,6 +9,7 @@ module.exports = app => {
     const student_user = require("../controllers/student_user.controller.js");
     const student = require("../controllers/student.controller.js");
     const plan = require("../controllers/plan.controller.js");
+    const advisor = require("../controllers/advisor.controller.js");
 
     // ----------------------------------
     // Course Table API
@@ -127,8 +128,20 @@ module.exports = app => {
     // Delete a user
     app.delete("/semester_courses", semester_courses.delete);//Working On
   
+    // ----------------------------------
     // Plan Table API
     // ----------------------------------
 
+    // Get plan(s) by parameter
     app.get("/plan", plan.find);
+
+    // ----------------------------------
+    // Advisor Table API
+    // ----------------------------------
+
+    // Get advisor(s) by parameter
+    app.get("/advisor", advisor.find);
+
+    // Update an advisor with the id and a JSON
+    app.put("/advisor", advisor.update);
   };
