@@ -35,7 +35,7 @@ Advisor.findById = (advid, result) => {
 
 Advisor.updateById = (advid, adv, result) => {
     sql.query(
-        `UPDATE advisor SET adv_name = "${adv.adv_name}", WHERE adv_id = ${advid}`,(err, res) => {
+        `UPDATE advisor SET adv_name = "${adv.adv_name}" WHERE adv_id = ${advid}`,(err, res) => {
           if (err) {
             console.log("error: ", err);
             result(null, err);
