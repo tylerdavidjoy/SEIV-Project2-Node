@@ -10,6 +10,7 @@ module.exports = app => {
     const student = require("../controllers/student.controller.js");
     const plan = require("../controllers/plan.controller.js");
     const advisor = require("../controllers/advisor.controller.js");
+    const advisor_user = require("../controllers/advisor_user.controller.js");
 
     // ----------------------------------
     // Course Table API
@@ -144,4 +145,11 @@ module.exports = app => {
 
     // Update an advisor with the id and a JSON
     app.put("/advisor", advisor.update);
+
+    // ----------------------------------
+    // Advisor_User Table API
+    // ----------------------------------
+
+    // Find advisor_user(s) by a parameter
+    app.get("/advisor_user", advisor_user.find);
   };
