@@ -242,7 +242,7 @@ User.remove = (id, result) => {
       result({ kind: "not_found" }, null);
       return;
     }
-    console.log(res[0].user_role);
+    //console.log(res[0].user_role);
     if(res[0].user_role == "student")
     {
       console.log("true");
@@ -255,13 +255,14 @@ User.remove = (id, result) => {
 function stuDelete(id)
 {
   let stuDelPromise = new Promise(function(stuDelResolve, stuDelReject) {
-    sql.query(`SELECT * FROM student_user WHERE user_id = "${id}"`, (err, res) => {
+    sql.query(`SELECT stu_id FROM student_user WHERE user_id = "${id}"`, (err, res) => {
       if (err) {
         stuDelReject(err);
       }
       else
       {
         stuDelResolve(res[0].stu_id);
+        console.log(res[0].stu_id);
       }
     });
   });
