@@ -45,7 +45,7 @@ function createStudent(user) {
   // Create student
   let stuPromise = new Promise(function(stuResolve, stuReject)
   {
-    sql.query(`INSERT INTO student SET stu_name = "${user.user_email}`, (err, res) => {
+    sql.query(`INSERT INTO student SET stu_name = "${user.user_email}"`, (err, res) => {
       if (err) {
         stuReject(err);
       }
