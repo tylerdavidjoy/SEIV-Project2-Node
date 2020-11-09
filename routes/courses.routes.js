@@ -11,6 +11,7 @@ module.exports = app => {
     const plan = require("../controllers/plan.controller.js");
     const advisor = require("../controllers/advisor.controller.js");
     const advisor_user = require("../controllers/advisor_user.controller.js");
+    const admin_user = require("../controllers/admin_user.controller.js");
 
     // ----------------------------------
     // Course Table API
@@ -152,4 +153,11 @@ module.exports = app => {
 
     // Find advisor_user(s) by a parameter
     app.get("/advisor_user", advisor_user.find);
+
+    // ----------------------------------
+    // Admin_User Table API
+    // ----------------------------------
+
+    // Find admin_user(s) by a parameter
+    app.get("/admin_user", admin_user.find);
   };

@@ -30,7 +30,14 @@ User.create = (user, result) => {
       // Determine the role of the created user and create corresponding tables
       if(response.user_role == "student") {createStudent(response);}
       else if (response.user_role == "advisor") {createAdvisor(response);}
-      // put admin create here
+      else if (response.user_role == "admin") {
+        sql.query(`INSERT INTO admin_user SET user_id = "${user.user_id}"`, (err, res) => {
+          if (err)
+            return;
+          else
+            console.log("created admin_user with id: ", res.insertId);
+        });
+      }
     },
     function(error) {
       console.log("error: ", error);
@@ -127,7 +134,7 @@ function createStudent(user) {
 // If the created user's role was advisor, make advisor and advisor_user tables 
 // where all tables have appropriate foreign keys
 function createAdvisor(user) {
-  // Create student
+  // Create advisor
   let advPromise = new Promise(function(advResolve, advReject)
   {
     sql.query(`INSERT INTO advisor SET adv_name = "${user.user_email}"`, (err, res) => {
@@ -246,6 +253,12 @@ User.remove = (id, result) => {
     console.log(res[0].user_role);
     if(res[0].user_role == "student"){stuDelete(id);}
     else if (res[0].user_role == "advisor"){advDelete(id);}
+    else if (res[0].user_role == "admin"){
+      sql.query(`DELETE FROM user WHERE user_id = "${id}"`, (err, res) => {
+        if (err)
+          return;
+      });
+    }
     result(null, res);
   });
 };
