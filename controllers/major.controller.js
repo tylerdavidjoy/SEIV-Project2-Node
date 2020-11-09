@@ -31,7 +31,8 @@ exports.create = (req, res) => {
 // Retrieve all Courses from the database.
 exports.find = (req, res) => {
     const name = req.query.name;
-    if(name == null)
+    const id = req.query.id;
+    if(name == null && id == null)
       Major.getAll((err, data) => {
         if (err)
         res.status(500).send({
@@ -40,7 +41,7 @@ exports.find = (req, res) => {
         });
         else res.send(data);
       });
-    else
+    else if(name != null && id == null)
       Major.findByName(name, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
@@ -54,17 +55,51 @@ exports.find = (req, res) => {
           }
         } else res.send(data);
       });
+    else if(id != null)
+      Major.findById(id, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Not found Major with Major Id ${id}.`
+            });
+          } else {
+            res.status(500).send({
+              message: "Error retrieving Major with Major Id " + id
+            });
+          }
+        } else res.send(data);
+      });
   };
 
 // Update a Course identified by the courseId in the request
 exports.update = (req, res) => {
   const name = req.query.name;
+  const id = req.query.id;
   // Validate Request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }
+  if(id != null)
+  Major.updateById(
+    id,
+     new Major(req.body),
+     (err, data) => {
+       if (err) {
+         if (err.kind === "not_found") {
+           res.status(404).send({
+             message: `Not found Major with Id ${id}.`
+           });
+         } else {
+           res.status(500).send({
+             message: "Error updating Major with Id " + id
+           });
+         }
+       } else res.send(data);
+     }
+   );
+  else
   Major.updateByName(
    name,
     new Major(req.body),
