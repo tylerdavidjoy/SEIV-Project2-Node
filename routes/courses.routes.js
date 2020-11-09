@@ -62,13 +62,13 @@ module.exports = app => {
     //Course_Major Table API
 
     // Create a new Major-Course
-    app.post("/course_major", course_major.create);//Ready to Test
+    app.post("/courses_major", course_major.create);//Ready to Test
 
     // Retrieve all Majors or a Major by name
-    app.get("/course_major", course_major.find);//Ready to Test
+    app.get("/courses_major", course_major.find);//Ready to Test
 
     // Delete a Major with majorName
-    app.delete("/course_major", course_major.delete);//Ready to Test
+    app.delete("/courses_major", course_major.delete);//Ready to Test
   
     // ----------------------------------
     // User Table API
