@@ -243,11 +243,8 @@ User.remove = (id, result) => {
       return;
     }
     console.log(res[0].user_role);
-    if(res[0].user_role == "student")
-    {
-      console.log("true");
-      stuDelete(id);
-    }
+    if(res[0].user_role == "student"){stuDelete(id);}
+    else if (res[0].user_role == "advisor"){advDelete(id);}
     result(null, res);
   });
 };
@@ -286,6 +283,41 @@ function stuDelete(id)
     }
   );
 };
+
+function advDelete(id)
+{
+  let advDelPromise = new Promise(function(advDelResolve, advDelReject) {
+    sql.query(`SELECT * FROM advisor_user WHERE user_id = "${id}"`, (err, res) => {
+      if (err) {
+        advDelReject(err);
+      }
+      else
+      {
+        advDelResolve(res[0].adv_id);
+      }
+    });
+  });
+  advDelPromise.then(
+    // response is id of corresponding advisor to be deleted
+    function(response) {
+      sql.query(`DELETE FROM user WHERE user_id = "${id}"`, (err, res) => {
+        if (err) {
+          return;
+        }
+      });
+      console.log(response);
+      sql.query(`DELETE FROM advisor WHERE adv_id = "${response}"`, (err, res) => {
+        if (err) {
+          return;
+        }
+      });
+    },
+    function(error) {
+      console.log("error: ", error);
+      return;
+    }
+  );
+}
 
 module.exports = User;
 

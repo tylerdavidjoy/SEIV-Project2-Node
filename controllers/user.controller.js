@@ -42,17 +42,10 @@ exports.find = (req, res) => {
     User.findById(userid, (err, data) => {
         if (err)
         {
-          if (err.kind === "not_found")
-          {
-            res.status(404).send({
-              message: `Not found user with user_id ${userid}.`
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while retrieving user."
           });
-          }else {
-            res.status(500).send({
-              message:
-                err.message || "Some error occurred while retrieving user."
-            });
-          }
         }
         else res.send(data);
     });
@@ -81,15 +74,9 @@ exports.update = (req, res) => {
     new User(req.body),
     (err, data) => {
       if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found User with id ${req.query.userid}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error updating User with id " + req.query.userid
-          });
-        }
+        res.status(500).send({
+          message: "Error updating User with id " + req.query.userid
+        });
       } else res.send(data);
     }
   );
@@ -100,15 +87,9 @@ exports.delete = (req,res) => {
   
   User.remove(userid, (err, data) => {
     if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found User with id ${userid}`
-        });
-      } else {
-        res.status(500).send({
-          message: "Could not delete User with id " + userid
-        });
-      }
+      res.status(500).send({
+        message: "Could not delete User with id " + userid
+      });
     } else res.send({ message: `User was deleted successfully!` });
   });
 };
