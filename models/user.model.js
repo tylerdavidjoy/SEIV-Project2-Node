@@ -45,7 +45,7 @@ function createStudent(user) {
   // Create student
   let stuPromise = new Promise(function(stuResolve, stuReject)
   {
-    sql.query(`INSERT INTO student SET stu_name = "${user.user_email}`, (err, res) => {
+    sql.query(`INSERT INTO student SET stu_name = "${user.user_email}"`, (err, res) => {
       if (err) {
         stuReject(err);
       }
@@ -242,6 +242,7 @@ User.remove = (id, result) => {
       result({ kind: "not_found" }, null);
       return;
     }
+
     console.log(res[0].user_role);
     if(res[0].user_role == "student"){stuDelete(id);}
     else if (res[0].user_role == "advisor"){advDelete(id);}
@@ -252,13 +253,14 @@ User.remove = (id, result) => {
 function stuDelete(id)
 {
   let stuDelPromise = new Promise(function(stuDelResolve, stuDelReject) {
-    sql.query(`SELECT * FROM student_user WHERE user_id = "${id}"`, (err, res) => {
+    sql.query(`SELECT stu_id FROM student_user WHERE user_id = "${id}"`, (err, res) => {
       if (err) {
         stuDelReject(err);
       }
       else
       {
         stuDelResolve(res[0].stu_id);
+        console.log(res[0].stu_id);
       }
     });
   });

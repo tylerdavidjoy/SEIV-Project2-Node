@@ -9,6 +9,8 @@ module.exports = app => {
     const student_user = require("../controllers/student_user.controller.js");
     const student = require("../controllers/student.controller.js");
     const plan = require("../controllers/plan.controller.js");
+    const advisor = require("../controllers/advisor.controller.js");
+    const advisor_user = require("../controllers/advisor_user.controller.js");
 
     // ----------------------------------
     // Course Table API
@@ -60,13 +62,13 @@ module.exports = app => {
     //Course_Major Table API
 
     // Create a new Major-Course
-    app.post("/course_major", course_major.create);//Ready to Test
+    app.post("/courses_major", course_major.create);//Ready to Test
 
     // Retrieve all Majors or a Major by name
-    app.get("/course_major", course_major.find);//Ready to Test
+    app.get("/courses_major", course_major.find);//Ready to Test
 
     // Delete a Major with majorName
-    app.delete("/course_major", course_major.delete);//Ready to Test
+    app.delete("/courses_major", course_major.delete);//Ready to Test
   
     // ----------------------------------
     // User Table API
@@ -127,8 +129,27 @@ module.exports = app => {
     // Delete a user
     app.delete("/semester_courses", semester_courses.delete);//Working On
   
+    // ----------------------------------
     // Plan Table API
     // ----------------------------------
 
+    // Get plan(s) by parameter
     app.get("/plan", plan.find);
+
+    // ----------------------------------
+    // Advisor Table API
+    // ----------------------------------
+
+    // Get advisor(s) by parameter
+    app.get("/advisor", advisor.find);
+
+    // Update an advisor with the id and a JSON
+    app.put("/advisor", advisor.update);
+
+    // ----------------------------------
+    // Advisor_User Table API
+    // ----------------------------------
+
+    // Find advisor_user(s) by a parameter
+    app.get("/advisor_user", advisor_user.find);
   };

@@ -29,7 +29,25 @@ Major.findByName = (majorName, result) => {
     }
 
     if (res.length) {
-      console.log(majorName);
+      console.log("found major: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Course with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Major.findById = (majorId, result) => {
+  sql.query(`SELECT * FROM courses.major WHERE major.major_id = "${majorId}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
       console.log("found major: ", res);
       result(null, res);
       return;
@@ -69,6 +87,27 @@ Major.updateByName = (Name, major, result) => {
 
       console.log("updated major: ", { Name: Name, ...major });
       result(null, { Name: Name, ...major });
+    }
+  );
+};
+
+Major.updateById = (id, major, result) => {
+  sql.query(
+    `UPDATE major SET major_name = "${major.major_name}", major_total_hrs = ${major.major_total_hrs} WHERE major_id = "${id}"`,(err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Course with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated major: ", { id: id, ...major });
+      result(null, { id: id, ...major });
     }
   );
 };
