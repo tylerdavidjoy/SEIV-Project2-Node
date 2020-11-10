@@ -44,15 +44,9 @@ exports.find = (req, res) => {
     else
       Semester_Course.findByCourse(semester,course, (err, data) => {
         if (err) {
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: `Not found Course with Course Id ${course}.`
-            });
-          } else {
-            res.status(500).send({
-              message: "Error retrieving Course with Course Id " + course
-            });
-          }
+          res.status(500).send({
+            message: "Error retrieving Course with Course Id " + course
+          });
         } else res.send(data);
       });
   };
@@ -64,29 +58,17 @@ exports.delete = (req, res) => {
   if(course == null)
     Semester_Course.removeAll(semester, (err, data) => {
         if (err) {
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: `Not found Semester with id ${semester}.`
-            });
-          } else {
             res.status(500).send({
               message: "Could not delete Semester with id " + semester
             });
-          }
         } else res.send({ message: `Semester was deleted successfully!` });
       });
   else
     Semester_Course.removeCourse(semester, course, (err, data) => {
       if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found Course with id ${course}.`
-          });
-        } else {
           res.status(500).send({
             message: "Could not delete Course with id " + course
           });
-        }
       } else res.send({ message: `Course was deleted successfully!` });
     });
 };
