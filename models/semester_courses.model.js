@@ -15,7 +15,7 @@ Semester_Course.create = (newSemester, result) => {
         console.log("error: ", err);
         semCrsReject(err);
       }
-      semCrsResolve(res.plan_id);
+      semCrsResolve(res[0].plan_id);
     });
     sql.query(`INSERT INTO semester_courses VALUES(${newSemester.semester_id}, ${newSemester.course_id}, '${newSemester.grade}')`, (err, res) => {
       if (err) {
@@ -26,7 +26,7 @@ Semester_Course.create = (newSemester, result) => {
   });
   semCrsPromise.then(
     function(response) {
-      sql.query(`UPDATE plan SET plan_last_updated=NOW() WHERE plan_id = "${response}"`, (err, res) => {
+      sql.query(`UPDATE plan SET plan.plan_last_updated=NOW() WHERE plan_id = "${response}"`, (err, res) => {
         if (err) {
           console.log("error: ", err);
           result(null, err);
