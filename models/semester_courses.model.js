@@ -8,16 +8,37 @@ const Semester_Course = function(semester_course) {
 };
 
 Semester_Course.create = (newSemester, result) => {
-  sql.query(`INSERT INTO semester_courses VALUES( ${newSemester.semester_id}, ${newSemester.course_id}, '${newSemester.grade}')`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
+  let semCrsPromise = new Promise(function(semCrsResolve, semCrsReject)
+  {
+    sql.query(`SELECT * FROM semester WHERE semester.semester_id = "${newSemester.semester_id}"`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        semCrsReject(err);
+      }
+      semCrsResolve(res.plan_id);
+    });
+    sql.query(`INSERT INTO semester_courses VALUES(${newSemester.semester_id}, ${newSemester.course_id}, '${newSemester.grade}')`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        semCrsReject(err);
+      }
+    });
+  });
+  semCrsPromise.then(
+    function(response) {
+      sql.query(`UPDATE plan SET plan_last_updated=NOW() WHERE plan_id = "${response}"`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+          return;
+        }
+      })
+    },
+    function(error) {
+      console.log("error: ", error);
       return;
     }
-
-    console.log("created Semester: ", { semester_id: res.insertId, ...newSemester });
-    result(null, { semester_id: res.insertId, ...newSemester });
-  });
+  );
 };
 Semester_Course.findByCourse = (semester,course, result) => {
   sql.query(`SELECT * FROM courses.semester_courses WHERE semester_id = "${semester}" AND course_id = "${course}"`, (err, res) => {
