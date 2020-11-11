@@ -39,11 +39,12 @@ Semester_Course.create = (newSemester, result) => {
       return;
     }
   );*/
-  sql.query(`INSERT INTO semester_courses VALUES("${newSemester.semester_id}", "${newSemester.course_id}", "${newSemester.grade}")`, (err, res) => {
+  sql.query(`INSERT INTO semester_courses VALUES(${newSemester.semester_id}", "${newSemester.course_id}", "${newSemester.grade}")`, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(res, null);
+      result(err, null);
     }
+    result(null, res);
   });
 };
 Semester_Course.findByCourse = (semester,course, result) => {
