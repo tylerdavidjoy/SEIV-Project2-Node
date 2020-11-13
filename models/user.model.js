@@ -10,7 +10,7 @@ const User = function(user) {
 User.create = (user, result) => {
   let userPromise = new Promise(function(userResolve, userReject)
   {
-    sql.query("INSERT INTO user SET ?", user, (err, res) => {
+    sql.query(`INSERT INTO user SET user_role = "${user.user_role}", user_email = "${user.user_email}"`, (err, res) => {
       if (err) {
         result(err, null);
         userReject(err);
