@@ -33,7 +33,8 @@ exports.find = (req, res) => {
     const semester = req.query.semester;
     const course = req.query.course;
     if(course == null && semester == null)
-      Semester_Course.getAll(semester,(err, data) => {
+    {
+      Semester_Course.getAll((err, data) => {
         if (err)
         res.status(500).send({
           message:
@@ -41,7 +42,9 @@ exports.find = (req, res) => {
         });
         else res.send(data);
       });
+    }
     else if (course != null && semester == null)
+    {
       Semester_Course.findByCourse(course, (err, data) => {
         if (err) {
           res.status(500).send({
@@ -49,7 +52,9 @@ exports.find = (req, res) => {
           });
         } else res.send(data);
       });
+    }
     else if (course == null && semester != null)
+    {
       Semester_Course.findBySemester(semester, (err, data) => {
         if (err) {
           res.status(500).send({
@@ -57,6 +62,7 @@ exports.find = (req, res) => {
           });
         } else res.send(data)
       });
+    }
   };
 
 // Delete a Course with the specified courseId in the request
