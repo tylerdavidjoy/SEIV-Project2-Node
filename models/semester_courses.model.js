@@ -37,33 +37,14 @@ Semester_Course.create = (newSemester, result) => {
       console.log("error: ", error);
       return;
     }
-  );
-  
+  );  
 };
-Semester_Course.findByCourse = (semester,course, result) => {
-  sql.query(`SELECT * FROM courses.semester_courses WHERE semester_id = "${semester}" AND course_id = "${course}"`, (err, res) => {
+
+Semester_Course.getAll = (result) => {
+  sql.query(`SELECT * FROM semester_courses`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found semester: ", res);
-      result(null, res);
-      return;
-    }
-
-    // not found Semester of type
-    result({ kind: "not_found" }, null);
-  });
-};
-
-Semester_Course.getAll = (semester,result) => {
-  sql.query(`SELECT * FROM semester_courses WHERE semester_id = "${semester}"`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
       return;
     }
     console.log("Semester: ", res);
@@ -71,11 +52,49 @@ Semester_Course.getAll = (semester,result) => {
   });
 };
 
+Semester_Course.findByCourse = (course, result) => {
+  sql.query(`SELECT * FROM courses.semester_courses WHERE course_id = "${course}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found semester_course: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found semester_course of type
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Semester_Course.findBySemester = (semester, result) => {
+  sql.query(`SELECT * FROM courses.semester_courses WHERE semester_id = "${semester}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found semester_course: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found semester_course of type
+    result({ kind: "not_found" }, null);
+  });
+};
+
 Semester_Course.removeAll = (semester, result) => {
   sql.query(`DELETE FROM semester_courses WHERE semester_id = "${semester}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -94,7 +113,7 @@ Semester_Course.removeCourse = (semester,course, result) => {
   sql.query(`DELETE FROM semester_courses WHERE semester_id = "${semester}" AND course_id = "${course}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 

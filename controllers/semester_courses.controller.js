@@ -32,22 +32,30 @@ exports.create = (req, res) => {
 exports.find = (req, res) => {
     const semester = req.query.semester;
     const course = req.query.course;
-    if(course == null)
+    if(course == null && semester == null)
       Semester_Course.getAll(semester,(err, data) => {
         if (err)
         res.status(500).send({
           message:
-          err.message || "Some error occurred while retrieving courses for semester."
+          err.message || "Some error occurred while retrieving semester_courses."
         });
         else res.send(data);
       });
-    else
-      Semester_Course.findByCourse(semester,course, (err, data) => {
+    else if (course != null && semester == null)
+      Semester_Course.findByCourse(course, (err, data) => {
         if (err) {
           res.status(500).send({
-            message: "Error retrieving Course with Course Id " + course
+            message: "Error retrieving semester_courses with course Id " + course
           });
         } else res.send(data);
+      });
+    else if (course == null && semester != null)
+      Semester_Course.findBySemester(semester, (err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: "Error retrieving semester_courses with semester id " + semester
+          });
+        } else res.send(data)
       });
   };
 
