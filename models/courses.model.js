@@ -30,7 +30,26 @@ Course.create = (newCourse, result) => {
 };
 
 Course.findById = (courseId, result) => {
-  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseId.trim()}"`, (err, res) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Id = "${courseId}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found course: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Course with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Course.findByNumber = (courseNumber, result) => {
+  sql.query(`SELECT * FROM courses WHERE courses.Course_Number = "${courseNumber}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

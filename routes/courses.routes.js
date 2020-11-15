@@ -23,8 +23,8 @@ module.exports = app => {
     // Retrieve all Courses
     app.get("/courses", courses.findAll);
   
-    // Retrieve a single Course with courseId
-    app.get("/courses/id=:courseId", courses.findOne);
+    // // Retrieve a single Course with courseId
+    // app.get("/courses/id=:courseId", courses.findOne);
   
     // Update a Course with courseId
     app.put("/courses/:courseId", courses.update);

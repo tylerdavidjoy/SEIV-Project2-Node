@@ -38,8 +38,10 @@ exports.create = (req, res) => {
 
 // Retrieve all Courses from the database.
 exports.findAll = (req, res) => {
+  const id = req.query.id;
   const sort = req.query.sort;
   const order = req.query.order;
+  const number = req.query.number;
   // filterType determines what attribute we are filtering by
   const filterType = req.query.filterType;
   // filterBy determines what value we are looking for in said attribute
@@ -123,6 +125,38 @@ exports.findAll = (req, res) => {
             err.message || "Some error occurred while retrieving courses."
         });
       else res.send(data);
+    });
+  }
+  else if(number != null && id == null)
+  {
+    Course.findByNumber(number, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Course with Course_Number ${number}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving Course with Course_Number " + number
+          });
+        }
+      } else res.send(data);
+    });
+  }
+  else if(id != null)
+  {
+    Course.findById(id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Course with Id ${id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving Course with Id " + id
+          });
+        }
+      } else res.send(data);
     });
   }
   else{
